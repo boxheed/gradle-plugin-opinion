@@ -89,6 +89,11 @@ publishing {
     }
 }
 
+pluginBundle {
+  website = 'https://github.com/boxheed/' + rootProject.name
+  vcsUrl = 'https://github.com/boxheed/' + rootProject.name
+}
+
 
 bintray {
 	user = bintray_user
