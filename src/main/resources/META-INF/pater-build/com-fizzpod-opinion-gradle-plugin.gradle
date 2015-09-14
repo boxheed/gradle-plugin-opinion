@@ -104,8 +104,8 @@ pluginBundle {
 
 
 bintray {
-	user = binding.variables.containsKey("bintray_user")? bintray_user: "";
-	key = binding.variables.containsKey("bintray_user")? bintray_api_key: ""
+	user = project.hasProperty("bintray_user")? bintray_user: "";
+	key = project.hasProperty("bintray_user")? bintray_api_key: ""
   //Dry run set to true and publish set to false, these should be explicitly set
 	dryRun = true //Whether to run this as dry-run, without deploying
 	publish = false //If version should be auto published after an upload
