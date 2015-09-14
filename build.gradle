@@ -34,8 +34,8 @@ dependencies {
 }
 
 bintray {
-	dryRun = false //Whether to run this as dry-run, without deploying
-	publish = true //If version should be auto published after an upload
+	dryRun = false
+	publish = true
 	pkg {
 		labels = ['opinion', 'gradle', 'plugin']
 		repo = 'maven'
