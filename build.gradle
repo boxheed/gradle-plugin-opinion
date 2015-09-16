@@ -21,6 +21,7 @@ apply plugin: 'java'
 
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin.gradle'
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-cobertura.gradle'
+apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-init.gradle'
 
 dependencies {
 	runtime 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.3.1'

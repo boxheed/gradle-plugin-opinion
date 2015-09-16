@@ -10,8 +10,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'pl.allegro.tech.build.axion-release'
 apply plugin: 'com.fizzpod.info'
 apply plugin: 'com.fizzpod.sweeney'
-apply plugin: 'com.fizzpod.gitignore'
-apply plugin: 'com.fizzpod.layout'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.gradle.plugin-publish'
 
@@ -40,25 +38,6 @@ dependencies {
 sweeney {
 	enforce 'jdk:[1.7,)'
 	enforce 'gradle:[2.3,)'
-}
-
-layout {
-	file('README.md') {
-		"# " + project.name
-	}
-	file('LICENSE')
-	file('shippable.yml')
-	file('release.gradle')
-}
-
-gitignore {
-	ignore 'build'
-	ignore '.gradle'
-	ignore 'bin'
-  ignore '.vagrant'
-  ignore '.classpath'
-  ignore '.project'
-  ignore '.settings'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
