@@ -7,7 +7,6 @@ apply plugin: 'project-report'
 apply plugin: 'maven-publish'
 
 //External plugins
-apply plugin: 'cobertura'
 apply plugin: 'pl.allegro.tech.build.axion-release'
 apply plugin: 'com.fizzpod.info'
 apply plugin: 'com.fizzpod.sweeney'
@@ -42,15 +41,6 @@ sweeney {
 	enforce 'jdk:[1.7,)'
 	enforce 'gradle:[2.3,)'
 }
-
-cobertura {
-  coverageFormats = ['html', 'xml']
-  coverageIgnoreTrivial = true
-  coverageIgnores = ['org.slf4j.Logger.*']
-  coverageReportDir = new File("$buildDir/reports/cobertura")
-}
-
-test.finalizedBy(project.tasks.cobertura)
 
 layout {
 	file('README.md') {
