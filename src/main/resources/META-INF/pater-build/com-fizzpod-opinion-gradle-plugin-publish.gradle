@@ -1,0 +1,69 @@
+//Builtin plugins
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+//External plugins
+apply plugin: 'pl.allegro.tech.build.axion-release'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.gradle.plugin-publish'
+
+scmVersion {
+    tag {
+        prefix = 'release'
+    }
+}
+
+group = 'com.fizzpod'
+version = scmVersion.version
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+pluginBundle {
+  website = 'https://github.com/boxheed/' + rootProject.name
+  vcsUrl = 'https://github.com/boxheed/' + rootProject.name
+}
+
+
+bintray {
+  user = project.hasProperty("bintray_user")? bintray_user: "";
+  key = project.hasProperty("bintray_api_key")? bintray_api_key: ""
+  //Dry run set to true and publish set to false, these should be explicitly set
+	dryRun = true //Whether to run this as dry-run, without deploying
+	publish = false //If version should be auto published after an upload
+	publications = ['mavenJava']
+	pkg {
+		websiteUrl = 'https://github.com/boxheed/' + rootProject.name
+		issueTrackerUrl = 'https://github.com/boxheed/' + rootProject.name + '/issues'
+    vcsUrl = 'https://github.com/boxheed/' + rootProject.name + '.git'
+		labels = []
+		repo = 'gradle-plugins'
+		name = rootProject.name
+		licenses = ['Apache-2.0']
+		publicDownloadNumbers = true
+	}
+}

@@ -1,20 +1,11 @@
 //Builtin plugins
 apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
-apply plugin: 'eclipse'
-apply plugin: 'maven'
 apply plugin: 'project-report'
-apply plugin: 'maven-publish'
 
 //External plugins
-apply plugin: 'cobertura'
-apply plugin: 'pl.allegro.tech.build.axion-release'
 apply plugin: 'com.fizzpod.info'
 apply plugin: 'com.fizzpod.sweeney'
-apply plugin: 'com.fizzpod.gitignore'
-apply plugin: 'com.fizzpod.layout'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.gradle.plugin-publish'
 
 repositories {
   mavenLocal()
@@ -24,15 +15,6 @@ repositories {
   }
 }
 
-scmVersion {
-    tag {
-        prefix = 'release'
-    }
-}
-
-group = 'com.fizzpod'
-version = scmVersion.version
-
 dependencies {
 	compile gradleApi()
 	compile localGroovy()
@@ -41,83 +23,4 @@ dependencies {
 sweeney {
 	enforce 'jdk:[1.7,)'
 	enforce 'gradle:[2.3,)'
-}
-
-cobertura {
-  coverageFormats = ['html', 'xml']
-  coverageIgnoreTrivial = true
-  coverageIgnores = ['org.slf4j.Logger.*']
-  coverageReportDir = new File("$buildDir/reports/cobertura")
-}
-
-test.finalizedBy(project.tasks.cobertura)
-
-layout {
-	file('README.md') {
-		"# " + project.name
-	}
-	file('LICENSE')
-	file('shippable.yml')
-	file('release.gradle')
-}
-
-gitignore {
-	ignore 'build'
-	ignore '.gradle'
-	ignore 'bin'
-  ignore '.vagrant'
-  ignore '.classpath'
-  ignore '.project'
-  ignore '.settings'
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-        }
-    }
-}
-
-pluginBundle {
-  website = 'https://github.com/boxheed/' + rootProject.name
-  vcsUrl = 'https://github.com/boxheed/' + rootProject.name
-}
-
-
-bintray {
-	user = project.hasProperty("bintray_user")? bintray_user: "";
-	key = project.hasProperty("bintray_api_key")? bintray_api_key: ""
-  //Dry run set to true and publish set to false, these should be explicitly set
-	dryRun = true //Whether to run this as dry-run, without deploying
-	publish = false //If version should be auto published after an upload
-	publications = ['mavenJava']
-	pkg {
-		websiteUrl = 'https://github.com/boxheed/' + rootProject.name
-		issueTrackerUrl = 'https://github.com/boxheed/' + rootProject.name + '/issues'
-    vcsUrl = 'https://github.com/boxheed/' + rootProject.name + '.git'
-		labels = []
-		repo = 'gradle-plugins'
-		name = rootProject.name
-		licenses = ['Apache-2.0']
-		publicDownloadNumbers = true
-	}
 }
