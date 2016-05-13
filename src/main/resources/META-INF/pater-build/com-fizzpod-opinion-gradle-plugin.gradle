@@ -4,6 +4,7 @@ apply plugin: 'java-gradle-plugin'
 apply plugin: 'project-report'
 
 //External plugins
+apply plugin: "com.github.nwillc.vplugin"
 apply plugin: 'com.fizzpod.info'
 apply plugin: 'com.fizzpod.sweeney'
 
