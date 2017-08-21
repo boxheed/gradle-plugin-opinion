@@ -12,3 +12,5 @@ jacocoTestReport {
         csv.enabled false
     }
 }
+
+build.dependsOn jacocoTestReport
