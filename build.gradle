@@ -10,7 +10,7 @@ buildscript {
 	dependencies {
 		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
 		classpath 'com.gradle.publish:plugin-publish-plugin:0.9.10'
-		classpath 'pl.allegro.tech.build:axion-release-plugin:1.9.0'
+		classpath 'pl.allegro.tech.build:axion-release-plugin:1.8.1'
 		classpath 'com.fizzpod:gradle-extended-info-plugin:3.6.1'
 		classpath 'com.fizzpod:gradle-gitignore-plugin:1.2.0'
 		classpath 'com.fizzpod:gradle-layout-plugin:2.0.1'
@@ -30,7 +30,7 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 dependencies {
 	runtime 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
   runtime 'com.gradle.publish:plugin-publish-plugin:0.9.10'
-	runtime 'pl.allegro.tech.build:axion-release-plugin:1.9.0'
+	runtime 'pl.allegro.tech.build:axion-release-plugin:1.8.1'
 	runtime 'com.fizzpod:gradle-extended-info-plugin:3.6.1'
 	runtime 'com.fizzpod:gradle-gitignore-plugin:1.2.0'
 	runtime 'com.fizzpod:gradle-layout-plugin:2.0.1'
