@@ -10,8 +10,8 @@ apply plugin: 'com.fizzpod.sweeney'
 apply plugin: 'com.github.ben-manes.versions'
 
 buildScan {
-    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
-    licenseAgree = 'yes'
+  licenseAgreementUrl = 'https://gradle.com/terms-of-service'
+  licenseAgree = 'yes'
 }
 
 repositories {
