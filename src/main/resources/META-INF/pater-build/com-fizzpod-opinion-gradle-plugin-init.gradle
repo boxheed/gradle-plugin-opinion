@@ -2,11 +2,6 @@
 apply plugin: 'com.fizzpod.gitignore'
 apply plugin: 'com.fizzpod.layout'
 
-sweeney {
-  enforce 'jdk:[1.7,)'
-  enforce 'gradle:[2.3,)'
-}
-
 layout {
   file('README.md') {
     "# " + project.name

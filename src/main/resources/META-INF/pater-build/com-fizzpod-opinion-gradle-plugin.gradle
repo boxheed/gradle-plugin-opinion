@@ -14,6 +14,9 @@ buildScan {
   licenseAgree = 'yes'
 }
 
+sourceCompatibility=1.8
+targetCompatibility=1.8
+
 repositories {
   mavenLocal()
   jcenter()
@@ -28,6 +31,6 @@ dependencies {
 }
 
 sweeney {
-	enforce 'jdk:[1.7,)'
-	enforce 'gradle:[2.3,)'
+	enforce 'jdk:[1.8,)'
+	enforce 'gradle:[4.5.1,)'
 }
