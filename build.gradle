@@ -12,11 +12,11 @@ buildscript {
 		classpath 'com.gradle.publish:plugin-publish-plugin:0.10.0'
 		classpath 'pl.allegro.tech.build:axion-release-plugin:1.8.1'
 		classpath 'com.fizzpod:gradle-extended-info-plugin:3.7.1'
-		classpath 'com.fizzpod:gradle-gitignore-plugin:1.2.0'
+		classpath 'com.fizzpod:gradle-gitignore-plugin:2.0.0'
 		classpath 'com.fizzpod:gradle-layout-plugin:2.0.1'
-		classpath 'com.fizzpod:gradle-sweeney-plugin:3.0.0'
+		classpath 'com.fizzpod:gradle-sweeney-plugin:4.0.0'
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
-		classpath 'com.gradle:build-scan-plugin:1.12.1'
+		classpath 'com.gradle:build-scan-plugin:1.16'
   }
 }
 apply plugin: 'com.gradle.build-scan'
@@ -32,12 +32,12 @@ dependencies {
   runtime 'com.gradle.publish:plugin-publish-plugin:0.10.0'
 	runtime 'pl.allegro.tech.build:axion-release-plugin:1.8.1'
 	runtime 'com.fizzpod:gradle-extended-info-plugin:3.7.1'
-	runtime 'com.fizzpod:gradle-gitignore-plugin:1.2.0'
+	runtime 'com.fizzpod:gradle-gitignore-plugin:2.0.0'
 	runtime 'com.fizzpod:gradle-layout-plugin:2.0.1'
-	runtime 'com.fizzpod:gradle-sweeney-plugin:3.0.0'
+	runtime 'com.fizzpod:gradle-sweeney-plugin:4.0.0'
 	runtime 'com.fizzpod:gradle-pater-build-plugin:1.1.1'
 	runtime 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
-	runtime 'com.gradle:build-scan-plugin:1.12.1'
+	runtime 'com.gradle:build-scan-plugin:1.16'
 }
 
 bintray {
