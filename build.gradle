@@ -9,14 +9,14 @@ buildscript {
 	}
 	dependencies {
 		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-		classpath 'com.gradle.publish:plugin-publish-plugin:0.10.0'
-		classpath 'pl.allegro.tech.build:axion-release-plugin:1.8.1'
+		classpath 'com.gradle.publish:plugin-publish-plugin:0.10.1'
+		classpath 'pl.allegro.tech.build:axion-release-plugin:1.10.0'
 		classpath 'com.fizzpod:gradle-extended-info-plugin:4.0.3'
 		classpath 'com.fizzpod:gradle-gitignore-plugin:2.0.0'
-		classpath 'com.fizzpod:gradle-layout-plugin:2.0.1'
+		classpath 'com.fizzpod:gradle-layout-plugin:4.0.0'
 		classpath 'com.fizzpod:gradle-sweeney-plugin:4.0.0'
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
-		classpath 'com.gradle:build-scan-plugin:1.12.1'
+		classpath 'com.gradle:build-scan-plugin:2.1'
   }
 }
 apply plugin: 'com.gradle.build-scan'
@@ -29,15 +29,15 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 
 dependencies {
 	runtime 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-  runtime 'com.gradle.publish:plugin-publish-plugin:0.10.0'
-	runtime 'pl.allegro.tech.build:axion-release-plugin:1.8.1'
+  runtime 'com.gradle.publish:plugin-publish-plugin:0.10.1'
+	runtime 'pl.allegro.tech.build:axion-release-plugin:1.10.0'
 	runtime 'com.fizzpod:gradle-extended-info-plugin:4.0.3'
 	runtime 'com.fizzpod:gradle-gitignore-plugin:2.0.0'
-	runtime 'com.fizzpod:gradle-layout-plugin:2.0.1'
+	runtime 'com.fizzpod:gradle-layout-plugin:4.0.0'
 	runtime 'com.fizzpod:gradle-sweeney-plugin:4.0.0'
-	runtime 'com.fizzpod:gradle-pater-build-plugin:1.1.1'
+	runtime 'com.fizzpod:gradle-pater-build-plugin:2.0.0'
 	runtime 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
-	runtime 'com.gradle:build-scan-plugin:1.12.1'
+	runtime 'com.gradle:build-scan-plugin:2.1'
 }
 
 bintray {
