@@ -2,6 +2,7 @@ language: java
 
 jdk:
   - oraclejdk8
+  - java-8-openjdk-amd6
 
 build:
   ci:
