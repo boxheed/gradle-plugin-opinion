@@ -1,6 +1,6 @@
 //Builtin plugins
 apply plugin: 'eclipse'
-apply plugin: 'maven'
+//apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 //External plugins
