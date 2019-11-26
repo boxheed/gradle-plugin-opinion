@@ -28,16 +28,16 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-publish.gradle'
 
 dependencies {
-	runtime 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-	runtime 'com.gradle.publish:plugin-publish-plugin:0.10.1'
-	runtime 'pl.allegro.tech.build:axion-release-plugin:1.10.2'
-	runtime 'com.fizzpod:gradle-extended-info-plugin:5.1.0'
-	runtime 'com.fizzpod:gradle-gitignore-plugin:2.1.0'
-	runtime 'com.fizzpod:gradle-layout-plugin:4.0.0'
-	runtime 'com.fizzpod:gradle-sweeney-plugin:4.1.0'
-	runtime 'com.fizzpod:gradle-pater-build-plugin:2.0.0'
-	runtime 'com.github.ben-manes:gradle-versions-plugin:0.25.0'
-	runtime 'com.gradle:build-scan-plugin:2.4.2'
+	runtimeOnly 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+	runtimeOnly 'com.gradle.publish:plugin-publish-plugin:0.10.1'
+	runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.10.2'
+	runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:5.1.0'
+	runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:2.1.0'
+	runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.0.0'
+	runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.1.0'
+	runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.0.0'
+	runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.25.0'
+	runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.1'
 }
 
 bintray {
