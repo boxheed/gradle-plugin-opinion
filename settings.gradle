@@ -16,7 +16,7 @@ include 'api'
 include 'services:webservice'
 */
 plugins {
-  id "com.gradle.enterprise" version "3.1"
+  id "com.gradle.enterprise" version "3.5.1"
 }
 
 rootProject.name = 'gradle-plugin-opinion'
