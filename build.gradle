@@ -11,12 +11,12 @@ buildscript {
 		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
 		classpath 'com.gradle.publish:plugin-publish-plugin:0.12.0'
 		classpath 'pl.allegro.tech.build:axion-release-plugin:1.12.1'
-		classpath 'com.fizzpod:gradle-extended-info-plugin:5.2.0'
+		classpath 'com.fizzpod:gradle-extended-info-plugin:9.2.1'
 		classpath 'com.fizzpod:gradle-gitignore-plugin:2.2.0'
 		classpath 'com.fizzpod:gradle-layout-plugin:4.1.0'
 		classpath 'com.fizzpod:gradle-sweeney-plugin:4.2.0'
 		classpath 'com.github.ben-manes:gradle-versions-plugin:0.36.0'
-		classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.1'
+		classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.5.1'
   }
 }
 //apply plugin: 'com.gradle.enterprise'
@@ -31,13 +31,13 @@ dependencies {
 	runtimeOnly 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
 	runtimeOnly 'com.gradle.publish:plugin-publish-plugin:0.12.0'
 	runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.12.1'
-	runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:5.2.0'
+	runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:9.2.1'
 	runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:2.2.0'
 	runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.1.0'
 	runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.2.0'
 	runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.1.0'
 	runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.36.0'
-	runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.1'
+	runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.5.1'
 }
 
 bintray {
