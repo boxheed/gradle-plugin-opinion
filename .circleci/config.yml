@@ -37,7 +37,6 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      - run: echo "publishing"
       - run: ./gradlew clean verifyRelease createRelease
       - run: ./gradlew clean build
       - run: git push --tags
