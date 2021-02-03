@@ -4,8 +4,6 @@
 #
 version: 2.1
 
-
-
 jobs:
   build:
     docker:
@@ -39,9 +37,7 @@ jobs:
       - checkout
       - run: ./gradlew clean verifyRelease createRelease
       - run: ./gradlew clean build
-      - run: git push --tags
       - run: ./gradlew bintrayUpload
-      - run: ./gradlew publishPlugins
 
 workflows:
   build:
