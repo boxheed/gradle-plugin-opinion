@@ -41,15 +41,15 @@ publishing {
             artifact javadocJar
         }
     }
-}
 
-repositories {
-    maven {
-      url "s3://artifacts.fizzpod.com/public/mvn"
-      credentials(AwsCredentials) {
-        accessKey "${System.getenv('AWS_KEY')}"
-        secretKey "${System.getenv('AWS_SECRET')}"
-      }
+    repositories {
+        maven {
+            url "s3://artifacts.fizzpod.com/public/mvn"
+            credentials(AwsCredentials) {
+                accessKey = project.hasProperty("mvn_access_key")? mvn_access_key: "";
+                secretKey = project.hasProperty("mvn_secret_key")? mvn_secret_key: "";
+            }
+        }
     }
 }
 
