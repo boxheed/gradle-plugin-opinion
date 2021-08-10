@@ -12,7 +12,7 @@ buildscript {
 		classpath 'com.fizzpod:gradle-extended-info-plugin:10.0.0'
 		classpath 'com.fizzpod:gradle-gitignore-plugin:2.3.0'
 		classpath 'com.fizzpod:gradle-layout-plugin:4.2.2'
-		classpath 'com.fizzpod:gradle-sweeney-plugin:4.3.1'
+		classpath 'com.fizzpod:gradle-sweeney-plugin:4.4.0'
 		classpath 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
 		classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.6.3'
   }
@@ -31,7 +31,7 @@ dependencies {
 	runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:10.0.0'
 	runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:2.3.0'
 	runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.2.2'
-	runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.3.1'
+	runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.4.0'
 	runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.3.2'
 	runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
 	runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.6.3'
