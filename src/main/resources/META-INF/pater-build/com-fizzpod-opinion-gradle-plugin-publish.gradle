@@ -10,7 +10,7 @@ apply plugin: 'com.gradle.plugin-publish'
 
 scmVersion {
     tag {
-        prefix = 'release'
+        prefix = 'release-'
     }
 }
 

@@ -7,14 +7,14 @@ buildscript {
     	}
 	}
 	dependencies {
-		classpath 'com.gradle.publish:plugin-publish-plugin:0.14.0'
-		classpath 'pl.allegro.tech.build:axion-release-plugin:1.12.1'
-		classpath 'com.fizzpod:gradle-extended-info-plugin:9.2.1'
-		classpath 'com.fizzpod:gradle-gitignore-plugin:2.2.0'
-		classpath 'com.fizzpod:gradle-layout-plugin:4.2.0'
-		classpath 'com.fizzpod:gradle-sweeney-plugin:4.3.0'
-		classpath 'com.github.ben-manes:gradle-versions-plugin:0.38.0'
-		classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.6.1'
+		classpath 'com.gradle.publish:plugin-publish-plugin:0.15.0'
+		classpath 'pl.allegro.tech.build:axion-release-plugin:1.13.3'
+		classpath 'com.fizzpod:gradle-extended-info-plugin:9.3.1'
+		classpath 'com.fizzpod:gradle-gitignore-plugin:2.2.2'
+		classpath 'com.fizzpod:gradle-layout-plugin:4.2.2'
+		classpath 'com.fizzpod:gradle-sweeney-plugin:4.3.1'
+		classpath 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
+		classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.6.3'
   }
 }
 //apply plugin: 'com.gradle.enterprise'
@@ -26,15 +26,15 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-publish.gradle'
 
 dependencies {
-	runtimeOnly 'com.gradle.publish:plugin-publish-plugin:0.14.0'
-	runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.12.1'
-	runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:9.2.1'
-	runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:2.2.0'
-	runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.2.0'
-	runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.3.0'
-	runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.3.0'
-	runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.38.0'
-	runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.6.1'
+	runtimeOnly 'com.gradle.publish:plugin-publish-plugin:0.15.0'
+	runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.13.3'
+	runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:9.3.1'
+	runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:2.2.2'
+	runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.2.2'
+	runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.3.1'
+	runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.3.2'
+	runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
+	runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.6.3'
 }
 /*
 bintray {
