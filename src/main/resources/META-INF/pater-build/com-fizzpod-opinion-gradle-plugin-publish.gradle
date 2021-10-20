@@ -57,24 +57,3 @@ pluginBundle {
   website = 'https://github.com/boxheed/' + rootProject.name
   vcsUrl = 'https://github.com/boxheed/' + rootProject.name
 }
-
-/*
-bintray {
-  user = project.hasProperty("bintray_user")? bintray_user: "";
-  key = project.hasProperty("bintray_api_key")? bintray_api_key: ""
-  //Dry run set to true and publish set to false, these should be explicitly set
-	dryRun = true //Whether to run this as dry-run, without deploying
-	publish = false //If version should be auto published after an upload
-	publications = ['mavenJava']
-	pkg {
-		websiteUrl = 'https://github.com/boxheed/' + rootProject.name
-		issueTrackerUrl = 'https://github.com/boxheed/' + rootProject.name + '/issues'
-    vcsUrl = 'https://github.com/boxheed/' + rootProject.name + '.git'
-		labels = []
-		repo = 'gradle-plugins'
-		name = rootProject.name
-		licenses = ['Apache-2.0']
-		publicDownloadNumbers = true
-	}
-}
-*/

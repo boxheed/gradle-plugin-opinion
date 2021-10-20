@@ -7,8 +7,7 @@ layout {
     "# " + project.name
   }
   file('LICENSE')
-  file('shippable.yml')
-  file('release.gradle')
+  file('.circleci/config.yml')
 }
 
 gitignore {

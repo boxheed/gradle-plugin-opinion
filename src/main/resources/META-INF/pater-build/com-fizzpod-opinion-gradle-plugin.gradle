@@ -32,5 +32,5 @@ dependencies {
 
 sweeney {
 	enforce 'jdk:[1.8,)'
-	enforce 'gradle:[4.5.1,)'
+	enforce 'gradle:[7.0.0,)'
 }
