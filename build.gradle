@@ -9,12 +9,12 @@ buildscript {
 	dependencies {
 		classpath 'com.gradle.publish:plugin-publish-plugin:0.17.0'
 		classpath 'pl.allegro.tech.build:axion-release-plugin:1.13.6'
-		classpath 'com.fizzpod:gradle-extended-info-plugin:11.0.1'
-		classpath 'com.fizzpod:gradle-gitignore-plugin:2.3.0'
+		classpath 'com.fizzpod:gradle-extended-info-plugin:11.1.1'
+		classpath 'com.fizzpod:gradle-gitignore-plugin:2.3.1'
 		classpath 'com.fizzpod:gradle-layout-plugin:4.3.0'
 		classpath 'com.fizzpod:gradle-sweeney-plugin:4.4.0'
-		classpath 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
-		classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.7.1'
+		classpath 'com.github.ben-manes:gradle-versions-plugin:0.40.0'
+		classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.8'
   }
 }
 //apply plugin: 'com.gradle.enterprise'
@@ -28,11 +28,11 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 dependencies {
 	runtimeOnly 'com.gradle.publish:plugin-publish-plugin:0.17.0'
 	runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.13.6'
-	runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:11.0.1'
-	runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:2.3.0'
+	runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:11.1.1'
+	runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:2.3.1'
 	runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.3.0'
 	runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.4.0'
 	runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.4.0'
-	runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.39.0'
-	runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.7.1'
+	runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.40.0'
+	runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.8'
 }
