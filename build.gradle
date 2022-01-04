@@ -15,6 +15,7 @@ buildscript {
         classpath 'com.fizzpod:gradle-sweeney-plugin:4.4.0'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.40.0'
         classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.8'
+        classpath 'org.owasp:dependency-check-gradle:6.5.2.1'
     }
 }
 //apply plugin: 'com.gradle.enterprise'
@@ -35,4 +36,5 @@ dependencies {
     runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.4.0'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.40.0'
     runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.8'
+    runtimeOnly 'org.owasp:dependency-check-gradle:6.5.2.1'
 }
