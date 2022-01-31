@@ -7,6 +7,8 @@ apply plugin: 'maven-publish'
 apply plugin: 'pl.allegro.tech.build.axion-release'
 //apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.gradle.plugin-publish'
+//owasp checking
+apply plugin: 'org.owasp.dependencycheck'
 
 scmVersion {
     tag {
@@ -57,3 +59,17 @@ pluginBundle {
   website = 'https://github.com/boxheed/' + rootProject.name
   vcsUrl = 'https://github.com/boxheed/' + rootProject.name
 }
+
+
+
+dependencyCheck {
+  //don't fail the build on CVSS scores, this should be updated to '4' once all builds are clean
+  failBuildOnCVSS=11
+  analyzers {
+    assemblyEnabled=false
+  }
+  suppressionFiles=["cve-suppressions.xml"]
+}
+
+//Set up the release verification to depend on owasp analysis
+verifyRelease.dependsOn dependencyCheckAnalyze
