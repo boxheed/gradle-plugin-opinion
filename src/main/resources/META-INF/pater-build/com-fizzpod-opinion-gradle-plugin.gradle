@@ -8,7 +8,7 @@ apply plugin: 'project-report'
 apply plugin: 'com.fizzpod.info'
 apply plugin: 'com.fizzpod.sweeney'
 apply plugin: 'com.github.ben-manes.versions'
-apply plugin: 'org.owasp.dependencycheck'
+
 
 buildScan {
   termsOfServiceUrl = 'https://gradle.com/terms-of-service'    
@@ -36,10 +36,3 @@ sweeney {
 	enforce 'gradle:[7.0.0,)'
 }
 
-dependencyCheck {
-  //don't fail the build on CVSS scores, this should be updated to '4' once all builds are clean
-  failBuildOnCVSS=7
-  analyzers {
-    assemblyEnabled=false
-  }
-}
