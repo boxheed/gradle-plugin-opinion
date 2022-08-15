@@ -36,6 +36,7 @@ artifacts {
 }
 
 publishing {
+/*
     publications {
         mavenJava(MavenPublication) {
             from components.java
@@ -43,7 +44,7 @@ publishing {
             artifact javadocJar
         }
     }
-
+*/
     repositories {
         maven {
             url "s3://artifacts.fizzpod.com/public/mvn"

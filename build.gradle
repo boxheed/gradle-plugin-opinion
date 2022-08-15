@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.gradle.publish:plugin-publish-plugin:0.20.0'
+        classpath 'com.gradle.publish:plugin-publish-plugin:1.0.0'
         classpath 'pl.allegro.tech.build:axion-release-plugin:1.13.6'
         classpath 'com.fizzpod:gradle-extended-info-plugin:11.2.0'
         classpath 'com.fizzpod:gradle-gitignore-plugin:2.3.1'
@@ -58,7 +58,7 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-publish.gradle'
 
 dependencies {
-    runtimeOnly 'com.gradle.publish:plugin-publish-plugin:0.20.0'
+    runtimeOnly 'com.gradle.publish:plugin-publish-plugin:1.0.0'
     runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.13.6'
     runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:11.2.0'
     runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:2.3.1'
