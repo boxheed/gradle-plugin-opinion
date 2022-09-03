@@ -9,13 +9,13 @@ buildscript {
     dependencies {
         classpath 'com.gradle.publish:plugin-publish-plugin:1.0.0'
         classpath 'pl.allegro.tech.build:axion-release-plugin:1.14.0'
-        classpath 'com.fizzpod:gradle-extended-info-plugin:11.3.1'
+        classpath 'com.fizzpod:gradle-extended-info-plugin:11.4.0'
         classpath 'com.fizzpod:gradle-gitignore-plugin:2.3.2'
         classpath 'com.fizzpod:gradle-layout-plugin:4.3.0'
         classpath 'com.fizzpod:gradle-sweeney-plugin:4.5.0'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.42.0'
         classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.11.1'
-        classpath 'org.owasp:dependency-check-gradle:7.1.1'
+        classpath 'org.owasp:dependency-check-gradle:7.1.2'
         constraints {
 /*            implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10') {
                 because 'version 1.3.5 as defined by nebula gradle-info-plugin has a known vulnerability'
@@ -60,14 +60,14 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 dependencies {
     runtimeOnly 'com.gradle.publish:plugin-publish-plugin:1.0.0'
     runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.14.0'
-    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:11.3.1'
+    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:11.4.0'
     runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:2.3.2'
     runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.3.0'
     runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.5.0'
     runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.4.0'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.42.0'
     runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.11.1'
-    runtimeOnly 'org.owasp:dependency-check-gradle:7.1.1'
+    runtimeOnly 'org.owasp:dependency-check-gradle:7.1.2'
     //Following constraints to avoid CVE Vulns
     constraints {
 /*        implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10') {
