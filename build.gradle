@@ -71,39 +71,29 @@ dependencies {
     runtimeOnly 'org.owasp:dependency-check-gradle:8.1.0'
     //Following constraints to avoid CVE Vulns
     constraints {
-        implementation('org.apache.sshd:sshd-core:2.9.2') {
+        implementation('org.apache.sshd:sshd-core') {
             because 'version 2.7.0 defined has a known vuknerability'
-        }
-        implementation('org.apache.sshd:sshd-osgi:2.9.2') {
-            because 'version 2.7.0 defined has a known vuknerability'
-        }
-        implementation('org.apache.sshd:sshd-sftp:2.9.2') {
-            because 'version 2.7.0 defined has a known vuknerability'
-        }
-/*        implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10') {
-            because 'version 1.3.5 as defined by nebula gradle-info-plugin has a known vulnerability'
-        }
-        implementation('org.bouncycastle:bcpg-jdk15on') {
-            because 'version 1.64 as defined by nebula gradle-info-plugin has a known vulnerability'
             version {
-                require '1.70'
+                require '2.9.2'
             }
         }
-        implementation('org.eclipse.jgit:org.eclipse.jgit') {
-            because 'version 1.64 as defined by nebula gradle-info-plugin has a known vulnerability'
+        implementation('org.apache.sshd:sshd-osgi') {
+            because 'version 2.7.0 defined has a known vuknerability'
             version {
-                require '5.13.0.202109080827-r'
+                require '2.9.2'
             }
-        }*/
-
-        implementation('com.thoughtworks.xstream:xstream:1.4.20') {
+        }
+        implementation('org.apache.sshd:sshd-sftp') {
+            because 'version 2.7.0 defined has a known vuknerability'
+            version {
+                require '2.9.2'
+            }
+        }
+        implementation('com.thoughtworks.xstream:xstream') {
             because 'version 1.4.17 defined by ben manes gradle version plugin has known vulnerabilities'
-        }
-/*        implementation('com.h2database:h2') {
-            because 'version 1.4 defined by owasp plugin has known vulnerabilities'
             version {
-                require '1.4.200'
+                require '1.4.20'
             }
-        */
         }
+    }
 }
