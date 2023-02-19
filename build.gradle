@@ -16,41 +16,9 @@ buildscript {
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.45.0'
         classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.12.3'
         classpath 'org.owasp:dependency-check-gradle:8.1.0'
-        constraints {
-/*            implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10') {
-                because 'version 1.3.5 as defined by nebula gradle-info-plugin has a known vulnerability'
-            }
-            implementation('org.bouncycastle:bcpg-jdk15on') {
-                because 'version 1.64 as defined by nebula gradle-info-plugin has a known vulnerability'
-                version {
-                    require '1.70'
-                }
-            }
-            implementation('org.eclipse.jgit:org.eclipse.jgit') {
-                because 'version 1.64 as defined by nebula gradle-info-plugin has a known vulnerability'
-                version {
-                    require '5.13.0.202109080827-r'
-                }
-            }*/
-            /*
-            classpath('com.thoughtworks.xstream:xstream:1.4.18') {
-                because 'version 1.4.17 defined by ben manes gradle version plugin has known vulnerabilities'
-                version {
-                    require '1.4.18'
-                }
-            }
-            classpath('com.h2database:h2') {
-                because 'version 1.4 defined by owasp plugin has known vulnerabilities'
-                version {
-                    require '1.4.2'
-                }
-            }
-            */
-
-        }
+        classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.13'
     }
 }
-//apply plugin: 'com.gradle.enterprise'
 apply plugin: 'java'
 
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin.gradle'
@@ -69,6 +37,7 @@ dependencies {
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.45.0'
     runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.12.3'
     runtimeOnly 'org.owasp:dependency-check-gradle:8.1.0'
+    runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.13'
     //Following constraints to avoid CVE Vulns
     constraints {
         implementation('org.apache.sshd:sshd-core') {
@@ -93,6 +62,12 @@ dependencies {
             because 'version 1.4.17 defined by ben manes gradle version plugin has known vulnerabilities'
             version {
                 require '1.4.20'
+            }
+        }
+        implementation ('org.apache.bcel:bcel') {
+            because 'version 6.5.0 defined has a known vuknerability'
+            version {
+                require '6.7.0'
             }
         }
     }
