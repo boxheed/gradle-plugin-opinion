@@ -8,6 +8,7 @@ apply plugin: 'project-report'
 apply plugin: 'com.fizzpod.info'
 apply plugin: 'com.fizzpod.sweeney'
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'com.github.spotbugs'
 
 
 buildScan {
@@ -36,3 +37,9 @@ sweeney {
 	enforce 'gradle:[7.0.0,)'
 }
 
+spotbugs {
+    ignoreFailures = false
+    showStackTraces = true
+    showProgress = true
+    reportsDir = file("$buildDir/spotbugs")
+}

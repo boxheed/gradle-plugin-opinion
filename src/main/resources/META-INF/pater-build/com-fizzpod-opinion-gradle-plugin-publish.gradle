@@ -5,7 +5,6 @@ apply plugin: 'maven-publish'
 
 //External plugins
 apply plugin: 'pl.allegro.tech.build.axion-release'
-//apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.gradle.plugin-publish'
 //owasp checking
 apply plugin: 'org.owasp.dependencycheck'
@@ -20,12 +19,12 @@ group = 'com.fizzpod'
 version = scmVersion.version
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    archiveClassifier = 'javadoc'
     from javadoc.destinationDir
 }
 
@@ -56,7 +55,7 @@ publishing {
     }
 }
 
-pluginBundle {
+gradlePlugin {
   website = 'https://github.com/boxheed/' + rootProject.name
   vcsUrl = 'https://github.com/boxheed/' + rootProject.name
 }
