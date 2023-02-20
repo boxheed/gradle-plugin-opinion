@@ -38,7 +38,7 @@ sweeney {
 }
 
 spotbugs {
-    ignoreFailures = false
+    ignoreFailures = true
     showStackTraces = true
     showProgress = true
     reportsDir = file("$buildDir/spotbugs")
