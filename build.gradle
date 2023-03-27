@@ -26,6 +26,14 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-init.gradle'
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-publish.gradle'
 
+compileJava {
+    options.release = 11
+}
+
+compileGroovy {
+    options.release = 11
+}
+
 dependencies {
     runtimeOnly 'com.gradle.publish:plugin-publish-plugin:1.1.0'
     runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.15.0'

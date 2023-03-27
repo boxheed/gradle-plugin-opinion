@@ -29,6 +29,10 @@ compileJava {
     options.release = 8
 }
 
+compileGroovy {
+    options.release = 8
+}
+
 repositories {
   mavenLocal()
   mavenCentral()
