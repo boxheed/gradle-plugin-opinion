@@ -16,8 +16,22 @@ buildScan {
   termsOfServiceAgree = 'yes'                                  
 }
 
-sourceCompatibility=1.8
-targetCompatibility=1.8
+//sourceCompatibility=1.8
+//targetCompatibility=1.8
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+compileJava {
+    options.release = 8
+}
+
+compileGroovy {
+    options.release = 8
+}
 
 repositories {
   mavenLocal()
