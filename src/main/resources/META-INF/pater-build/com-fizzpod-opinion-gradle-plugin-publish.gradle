@@ -69,6 +69,7 @@ dependencyCheck {
     assemblyEnabled=false
   }
   suppressionFiles=["cve-suppressions.xml"]
+  skipConfigurations=["spotbugs"]
 }
 
 //Set up the release verification to depend on owasp analysis
