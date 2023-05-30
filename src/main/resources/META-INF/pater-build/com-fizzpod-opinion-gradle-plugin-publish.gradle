@@ -78,7 +78,7 @@ githubRelease {
 	tagName 'release-' + project.version
 	releaseName 'Release ' + project.version
     owner "boxheed" 
-    targetCommitish "main" 
+    targetCommitish scminfo.branch 
     generateReleaseNotes true 
     draft true 
 	dryRun false
