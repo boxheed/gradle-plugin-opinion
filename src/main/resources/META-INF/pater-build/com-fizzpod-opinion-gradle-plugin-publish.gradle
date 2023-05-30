@@ -1,6 +1,5 @@
 //Builtin plugins
 apply plugin: 'eclipse'
-//apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 //External plugins
@@ -8,6 +7,8 @@ apply plugin: 'pl.allegro.tech.build.axion-release'
 apply plugin: 'com.gradle.plugin-publish'
 //owasp checking
 apply plugin: 'org.owasp.dependencycheck'
+//create release on github
+apply plugin: 'com.github.breadmoirai.github-release'
 
 scmVersion {
     tag {
@@ -70,6 +71,20 @@ dependencyCheck {
   }
   suppressionFiles=["cve-suppressions.xml"]
   skipConfigurations=["spotbugs"]
+}
+
+githubRelease {
+    token project.hasProperty("github_release_token")? github_release_token: ""
+	tagName 'release-' + project.version
+	releaseName 'Release ' + project.version
+    owner "boxheed" 
+    targetCommitish "main" 
+    generateReleaseNotes true 
+    draft true 
+	dryRun false
+    releaseAssets { ->
+		jar.outputs.files
+	}
 }
 
 //Set up the release verification to depend on owasp analysis

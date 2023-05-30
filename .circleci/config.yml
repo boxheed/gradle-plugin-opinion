@@ -71,6 +71,7 @@ jobs:
       - run: ./gradlew clean verifyRelease -Prelease.disableRemoteCheck
       - run: ./gradlew build
       - run: ./gradlew publish
+      - run: ./gradlew githubRelease
 
 workflows:
   build:
