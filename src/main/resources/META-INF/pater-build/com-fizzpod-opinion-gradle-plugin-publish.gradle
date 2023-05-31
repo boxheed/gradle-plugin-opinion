@@ -75,12 +75,13 @@ dependencyCheck {
 
 githubRelease {
     token project.hasProperty("github_release_token")? github_release_token: ""
+    owner "boxheed"
+    repo project.name 
 	tagName 'release-' + project.version
 	releaseName 'Release ' + project.version
-    owner "boxheed" 
     targetCommitish scminfo.branch 
     generateReleaseNotes true 
-    draft true 
+    draft false 
 	dryRun false
     releaseAssets { ->
 		jar.outputs.files
