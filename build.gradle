@@ -17,7 +17,7 @@ buildscript {
         classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.13.3'
         classpath 'org.owasp:dependency-check-gradle:8.2.1'
         classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.14'
-        classpath 'com.fizzpod:gradle-github-release-plugin:0.1.0'
+        classpath 'com.fizzpod:gradle-github-release-plugin:0.2.0'
     }
 }
 apply plugin: 'java'
@@ -47,7 +47,7 @@ dependencies {
     runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.13.3'
     runtimeOnly 'org.owasp:dependency-check-gradle:8.2.1'
     runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.14'
-    runtimeOnly 'com.fizzpod:gradle-github-release-plugin:0.1.0'
+    runtimeOnly 'com.fizzpod:gradle-github-release-plugin:0.2.0'
     //Following constraints to avoid CVE Vulns
     constraints {
         implementation('org.apache.sshd:sshd-core') {
