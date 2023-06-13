@@ -10,6 +10,7 @@ apply plugin: 'org.owasp.dependencycheck'
 //create release on github
 apply plugin: 'com.fizzpod.github-release'
 
+
 scmVersion {
     tag {
         prefix = 'release-'
@@ -18,6 +19,8 @@ scmVersion {
 
 group = 'com.fizzpod'
 version = scmVersion.version
+
+println(scmVersion.properties)
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier = 'sources'
@@ -36,15 +39,6 @@ artifacts {
 }
 
 publishing {
-/*
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-        }
-    }
-*/
     repositories {
         maven {
             url "s3://artifacts.fizzpod.com/public/mvn"
@@ -60,8 +54,6 @@ gradlePlugin {
   website = 'https://github.com/boxheed/' + rootProject.name
   vcsUrl = 'https://github.com/boxheed/' + rootProject.name
 }
-
-
 
 dependencyCheck {
   //don't fail the build on CVSS scores, this should be updated to '4' once all builds are clean
