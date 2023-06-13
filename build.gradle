@@ -27,7 +27,6 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-init.gradle'
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-publish.gradle'
 
-//println(scminfo.version)
 compileJava {
     options.release = 11
 }
