@@ -11,12 +11,7 @@ layout {
 }
 
 gitignore {
-  ignore 'build'
-  ignore '.gradle'
-  ignore 'bin'
-  ignore '.vagrant'
-  ignore '.classpath'
-  ignore '.project'
-  ignore '.settings'
-  ignore '.vscode'
+    merge true
+    url 'https://raw.githubusercontent.com/github/gitignore/main/Gradle.gitignore'
+    url 'https://raw.githubusercontent.com/github/gitignore/main/Java.gitignore'
 }
