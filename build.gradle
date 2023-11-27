@@ -15,7 +15,7 @@ buildscript {
         classpath 'com.fizzpod:gradle-sweeney-plugin:4.6.6'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.50.0'
         classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.15.1'
-        classpath 'org.owasp:dependency-check-gradle:8.4.3'
+        classpath 'org.owasp:dependency-check-gradle:9.0.1'
         classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:5.2.3'
         classpath 'com.fizzpod:gradle-github-release-plugin:0.4.8'
     }
@@ -45,7 +45,7 @@ dependencies {
     runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.5.8'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.50.0'
     runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.15.1'
-    runtimeOnly 'org.owasp:dependency-check-gradle:8.4.3'
+    runtimeOnly 'org.owasp:dependency-check-gradle:9.0.1'
     runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:5.2.3'
     runtimeOnly 'com.fizzpod:gradle-github-release-plugin:0.4.8'
     //Following constraints to avoid CVE Vulns
