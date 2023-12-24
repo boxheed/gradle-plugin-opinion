@@ -40,7 +40,7 @@ jobs:
       - run: ls -altr /var/
       - run: ls -altr /var/nvd-cve-db
       - run: ls -altr /var/nvd-cve-db/cache
-#      - run: ./gradlew clean dependencyCheckAnalyze
+      - run: ./gradlew clean dependencyCheckAnalyze
 
   release:
     docker:
