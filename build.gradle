@@ -8,15 +8,15 @@ buildscript {
     }
     dependencies {
         classpath 'com.gradle.publish:plugin-publish-plugin:1.2.1'
-        classpath 'pl.allegro.tech.build:axion-release-plugin:1.16.0'
+        classpath 'pl.allegro.tech.build:axion-release-plugin:1.16.1'
         classpath 'com.fizzpod:gradle-extended-info-plugin:12.3.4'
         classpath 'com.fizzpod:gradle-gitignore-plugin:3.0.4'
         classpath 'com.fizzpod:gradle-layout-plugin:4.3.6'
         classpath 'com.fizzpod:gradle-sweeney-plugin:4.6.6'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.50.0'
-        classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.15.1'
-        classpath 'org.owasp:dependency-check-gradle:9.0.2'
-        classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.1'
+        classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.16.1'
+        classpath 'org.owasp:dependency-check-gradle:9.0.7'
+        classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.4'
         classpath 'com.fizzpod:gradle-github-release-plugin:0.4.8'
     }
 }
@@ -37,16 +37,16 @@ compileGroovy {
 
 dependencies {
     runtimeOnly 'com.gradle.publish:plugin-publish-plugin:1.2.1'
-    runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.16.0'
+    runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.16.1'
     runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:12.3.4'
     runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:3.0.4'
     runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.3.6'
     runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.6.6'
     runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.5.8'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.50.0'
-    runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.15.1'
-    runtimeOnly 'org.owasp:dependency-check-gradle:9.0.2'
-    runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.1'
+    runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.16.1'
+    runtimeOnly 'org.owasp:dependency-check-gradle:9.0.7'
+    runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.4'
     runtimeOnly 'com.fizzpod:gradle-github-release-plugin:0.4.8'
     //Following constraints to avoid CVE Vulns
     constraints {
