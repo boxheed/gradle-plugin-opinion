@@ -25,7 +25,7 @@ jobs:
     docker:
       # specify the version you desire here
       #- image: cimg/openjdk:11.0
-      - image: boxheed/openjdk-17-nvd-cve-db
+      - image: boxheed/openjdk-17-nvd-cve-db:latest
     working_directory: ~/repo
     environment:
       # Customize the JVM maximum heap limit
@@ -38,9 +38,6 @@ jobs:
       - checkout
       - run: whoami
       - run: ls -altr /var/
-      - run: ls -altr /var/nvd-cve-db
-      - run: ls -altr /var/nvd-cve-db/cache
-      - run: sudo chmod -R +rw /var/nvd-cve-db 
       - run: ls -altr /var/nvd-cve-db
       - run: ls -altr /var/nvd-cve-db/cache
       - run: ./gradlew clean dependencyCheckAnalyze
