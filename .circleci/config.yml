@@ -36,10 +36,6 @@ jobs:
           name: setup
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
-      - run: whoami
-      - run: ls -altr /var/
-      - run: ls -altr /var/nvd-cve-db
-      - run: ls -altr /var/nvd-cve-db/cache
       - run: ./gradlew clean dependencyCheckAnalyze
 
   release:
