@@ -24,7 +24,6 @@ jobs:
   security:
     docker:
       # specify the version you desire here
-      #- image: cimg/openjdk:11.0
       - image: boxheed/openjdk-17-nvd-cve-db:latest
     working_directory: ~/repo
     environment:
@@ -41,7 +40,6 @@ jobs:
   release:
     docker:
       # specify the version you desire here
-      #- image: cimg/openjdk:11.0
       - image: boxheed/openjdk-17-nvd-cve-db:latest
     working_directory: ~/repo
     environment:
@@ -59,7 +57,6 @@ jobs:
   publish:
     docker:
       # specify the version you desire here
-      #- image: cimg/openjdk:11.0
       - image: boxheed/openjdk-17-nvd-cve-db:latest
     working_directory: ~/repo
     environment:
@@ -80,11 +77,6 @@ workflows:
           context: boxhead-builds
       - security:
           context: boxhead-builds
-#          requires:
-#            - build
-#          filters:
-#            branches:
-#              only: /^release.*$/
       - release:
           context: boxhead-builds
           requires:
