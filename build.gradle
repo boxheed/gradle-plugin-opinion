@@ -42,7 +42,7 @@ dependencies {
     runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:3.0.5'
     runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.3.8'
     runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.6.7'
-    runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.5.9'
+    runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.5.10'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.51.0'
     runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.16.2'
     runtimeOnly 'org.owasp:dependency-check-gradle:9.0.9'
