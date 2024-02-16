@@ -37,6 +37,16 @@ jobs:
       - checkout
       - run: ./gradlew clean dependencyCheckAnalyze
 
+  security-2:
+    docker:
+      - image: cimg/openjdk:11.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: cd /tmp && curl https://github.com/google/osv-scanner/releases/download/v1.6.2/osv-scanner_1.6.2_linux_amd64 -o osv-scanner && chmod +x /tmp/osv-scanner
+      - run: ./gradlew --write-locks resolveAndLockAl
+      - run: ls -al && pwd && /tmp/osv-scanner -r `pwd`
+
   release:
     docker:
       # specify the version you desire here
@@ -76,6 +86,8 @@ workflows:
       - build:
           context: boxhead-builds
       - security:
+          context: boxhead-builds
+      - security-2:
           context: boxhead-builds
       - release:
           context: boxhead-builds
