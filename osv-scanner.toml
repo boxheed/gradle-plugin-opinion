@@ -1,0 +1,3 @@
+[[IgnoredVulns]]
+id = "GHSA-22wj-vf5f-wrvj"
+reason = "H2 database not utilised in the way the vuln describes."
