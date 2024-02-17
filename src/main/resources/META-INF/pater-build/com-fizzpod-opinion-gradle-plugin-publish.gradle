@@ -6,7 +6,9 @@ apply plugin: 'maven-publish'
 apply plugin: 'pl.allegro.tech.build.axion-release'
 apply plugin: 'com.gradle.plugin-publish'
 //owasp checking
-apply plugin: 'org.owasp.dependencycheck'
+//apply plugin: 'org.owasp.dependencycheck'
+apply plugin: 'com.fizzpod.osv-scanner'
+
 //create release on github
 apply plugin: 'com.fizzpod.github-release'
 
@@ -53,7 +55,7 @@ gradlePlugin {
   vcsUrl = 'https://github.com/boxheed/' + rootProject.name
 }
 
-dependencyCheck {
+/*dependencyCheck {
   //don't fail the build on CVSS scores, this should be updated to '4' once all builds are clean
   failBuildOnCVSS=11
   autoUpdate=false
@@ -66,7 +68,7 @@ dependencyCheck {
   data {
     directory=project.hasProperty("owasp_db_dir")? owasp_db_dir: "/var/nvd-cve-db"
   }
-}
+}*/
 
 githubRelease {
     token project.hasProperty("github_release_token")? github_release_token: ""
@@ -82,4 +84,4 @@ githubRelease {
 }
 
 //Set up the release verification to depend on owasp analysis
-verifyRelease.dependsOn dependencyCheckAnalyze
+//verifyRelease.dependsOn dependencyCheckAnalyze

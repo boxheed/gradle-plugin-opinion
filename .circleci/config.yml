@@ -27,9 +27,9 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - run: cd /tmp && curl -L https://github.com/google/osv-scanner/releases/download/v1.6.2/osv-scanner_1.6.2_linux_amd64 -o /tmp/osv-scanner && chmod +x /tmp/osv-scanner
       - run: ./gradlew --write-locks resolveAndLockAll
-      - run: /tmp/osv-scanner -r .
+      - run: ./gradlew osvInstall
+      - run: ./gradlew osvScan
 
   release:
     docker:
