@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/boxheed/gradle-plugin-opinion/tree/master.svg?style=shield)](https://circleci.com/gh/boxheed/gradle-plugin-opinion/tree/master)
+
 # Gradle plugin build script opinion
 
 This library provides defaults and opinions for gradle plugin development for the com.fizzpod gradle plugins. This is not a general purpose library and should not directly be used for any other purpose.
