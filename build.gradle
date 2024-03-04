@@ -17,7 +17,7 @@ buildscript {
         classpath 'com.fizzpod:gradle-osv-scanner-plugin:3.0.0'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.51.0'
         classpath 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.16.2'
-        classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.7'
+        classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.8'
     }
 }
 apply plugin: 'java'
@@ -47,5 +47,5 @@ dependencies {
     runtimeOnly 'com.fizzpod:gradle-osv-scanner-plugin:3.0.0'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.51.0'
     runtimeOnly 'com.gradle.enterprise:com.gradle.enterprise.gradle.plugin:3.16.2'
-    runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.7'
+    runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.8'
 }
