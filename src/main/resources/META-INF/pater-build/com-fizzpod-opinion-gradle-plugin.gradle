@@ -10,10 +10,16 @@ apply plugin: 'com.fizzpod.sweeney'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'com.github.spotbugs'
 
+def isCI = System.getenv('CI') != null
 
-buildScan {
-  termsOfServiceUrl = 'https://gradle.com/terms-of-service'    
-  termsOfServiceAgree = 'yes'                                  
+
+
+develocity {
+    buildScan {
+        termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'    
+        termsOfUseAgree = 'yes'            
+         publishing.onlyIf { isCI }                      
+    }
 }
 
 java {
