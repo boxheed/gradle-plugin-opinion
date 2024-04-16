@@ -12,6 +12,8 @@ apply plugin: 'com.github.spotbugs'
 
 def isCI = System.getenv('CI') != null
 
+
+
 develocity {
     buildScan {
         termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'    
