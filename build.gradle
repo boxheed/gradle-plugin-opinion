@@ -50,4 +50,28 @@ dependencies {
     runtimeOnly 'com.gradle:develocity-gradle-plugin:3.17.3'
     runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.14'
     runtimeOnly 'com.gradle:common-custom-user-data-gradle-plugin:2.0.1'
+
+
+    constraints {
+        implementation('org.bouncycastle:bcpg-jdk18on') {
+            because 'version 1.77 imported as a dependency has a vulnerability'
+            version {
+                require '1.78.1'
+            }
+        }
+
+        implementation('org.bouncycastle:bcutil-jdk18on') {
+            because 'version 1.77 imported as a dependency has a vulnerability'
+            version {
+                require '1.78.1'
+            }
+        }
+
+        implementation('org.bouncycastle:bcpkix-jdk18on') {
+            because 'version 1.77 imported as a dependency has a vulnerability'
+            version {
+                require '1.78.1'
+            }
+        }
+    }
 }
