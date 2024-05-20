@@ -9,14 +9,14 @@ buildscript {
     dependencies {
         classpath 'com.gradle.publish:plugin-publish-plugin:1.2.1'
         classpath 'pl.allegro.tech.build:axion-release-plugin:1.17.2'
-        classpath 'com.fizzpod:gradle-extended-info-plugin:13.0.6'
+        classpath 'com.fizzpod:gradle-extended-info-plugin:13.0.7'
         classpath 'com.fizzpod:gradle-gitignore-plugin:3.0.11'
-        classpath 'com.fizzpod:gradle-layout-plugin:4.3.13'
-        classpath 'com.fizzpod:gradle-sweeney-plugin:4.6.12'
+        classpath 'com.fizzpod:gradle-layout-plugin:4.3.15'
+        classpath 'com.fizzpod:gradle-sweeney-plugin:4.6.15'
         classpath 'com.fizzpod:gradle-github-release-plugin:1.0.7'
         classpath 'com.fizzpod:gradle-osv-scanner-plugin:3.0.3'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.51.0'
-        classpath 'com.gradle:develocity-gradle-plugin:3.17.3'
+        classpath 'com.gradle:develocity-gradle-plugin:3.17.4'
         classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.14'
         classpath 'com.gradle:common-custom-user-data-gradle-plugin:2.0.1'
     }
@@ -39,15 +39,39 @@ compileGroovy {
 dependencies {
     runtimeOnly 'com.gradle.publish:plugin-publish-plugin:1.2.1'
     runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.17.2'
-    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:13.0.6'
+    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:13.0.7'
     runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:3.0.11'
-    runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.3.13'
-    runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.6.12'
-    runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.5.16'
+    runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.3.15'
+    runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.6.15'
+    runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.5.17'
     runtimeOnly 'com.fizzpod:gradle-github-release-plugin:1.0.7'
     runtimeOnly 'com.fizzpod:gradle-osv-scanner-plugin:3.0.3'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.51.0'
-    runtimeOnly 'com.gradle:develocity-gradle-plugin:3.17.3'
+    runtimeOnly 'com.gradle:develocity-gradle-plugin:3.17.4'
     runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.14'
     runtimeOnly 'com.gradle:common-custom-user-data-gradle-plugin:2.0.1'
+
+
+    constraints {
+        implementation('org.bouncycastle:bcpg-jdk18on') {
+            because 'version 1.77 imported as a dependency has a vulnerability'
+            version {
+                require '1.78.1'
+            }
+        }
+
+        implementation('org.bouncycastle:bcutil-jdk18on') {
+            because 'version 1.77 imported as a dependency has a vulnerability'
+            version {
+                require '1.78.1'
+            }
+        }
+
+        implementation('org.bouncycastle:bcpkix-jdk18on') {
+            because 'version 1.77 imported as a dependency has a vulnerability'
+            version {
+                require '1.78.1'
+            }
+        }
+    }
 }
