@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath 'com.gradle.publish:plugin-publish-plugin:1.2.1'
         classpath 'pl.allegro.tech.build:axion-release-plugin:1.17.2'
-        classpath 'com.fizzpod:gradle-extended-info-plugin:13.0.7'
+        classpath 'com.fizzpod:gradle-extended-info-plugin:13.0.8'
         classpath 'com.fizzpod:gradle-gitignore-plugin:3.0.15'
         classpath 'com.fizzpod:gradle-layout-plugin:4.3.17'
         classpath 'com.fizzpod:gradle-sweeney-plugin:4.6.16'
@@ -39,7 +39,7 @@ compileGroovy {
 dependencies {
     runtimeOnly 'com.gradle.publish:plugin-publish-plugin:1.2.1'
     runtimeOnly 'pl.allegro.tech.build:axion-release-plugin:1.17.2'
-    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:13.0.7'
+    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:13.0.8'
     runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:3.0.15'
     runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.3.17'
     runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:4.6.16'
