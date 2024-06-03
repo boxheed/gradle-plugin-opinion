@@ -1,4 +1,4 @@
-buildscript {
+buildscd .cript {
     repositories {
         mavenLocal()
         mavenCentral()

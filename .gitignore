@@ -7,3 +7,4 @@ bin
 .settings
 .vscode/
 .LCKbuild.gradle~
+.osv-scanner
