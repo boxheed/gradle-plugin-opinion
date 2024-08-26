@@ -46,7 +46,8 @@ jobs:
           command: source <(curl -s https://raw.githubusercontent.com/boxheed/shippable-scripts/master/java-build-ci-setup)
       - checkout
       - run: ./gradlew tagSemver
-      - run: git push --tags
+      - run: git checkout develop && git merge master 
+      - run: git push --atomic origin master develop --tags
 
   publish:
     docker:
