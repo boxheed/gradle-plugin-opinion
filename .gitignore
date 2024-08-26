@@ -8,3 +8,4 @@ bin
 .vscode/
 .LCKbuild.gradle~
 .osv-scanner
+.git-semver

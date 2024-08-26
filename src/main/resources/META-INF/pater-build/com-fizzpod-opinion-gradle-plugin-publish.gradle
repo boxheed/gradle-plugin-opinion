@@ -3,23 +3,16 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 //External plugins
-apply plugin: 'pl.allegro.tech.build.axion-release'
 apply plugin: 'com.gradle.plugin-publish'
 //owasp checking
 apply plugin: 'com.fizzpod.osv-scanner'
 
 //create release on github
+apply plugin: 'com.fizzpod.git-semver'
 apply plugin: 'com.fizzpod.github-release'
 
-
-scmVersion {
-    tag {
-        prefix = 'release-'
-    }
-}
-
 group = 'com.fizzpod'
-version = scmVersion.version
+version = gitSemver.resolve
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier = 'sources'
@@ -30,7 +23,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     archiveClassifier = 'javadoc'
     from javadoc.destinationDir
 }
-
 
 artifacts {
     archives sourcesJar
@@ -57,7 +49,7 @@ gradlePlugin {
 githubRelease {
     token project.hasProperty("github_release_token")? github_release_token: ""
     repo scminfo.origin
-	tagName 'release-' + project.version
+	tagName 'v' + project.version
 	releaseName 'Release ' + project.version
     generateReleaseNotes true 
     draft false 
@@ -66,4 +58,3 @@ githubRelease {
 		jar.outputs.files
 	}
 }
-
