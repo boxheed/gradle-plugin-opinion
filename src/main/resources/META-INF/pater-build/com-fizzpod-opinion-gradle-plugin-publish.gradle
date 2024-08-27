@@ -49,8 +49,8 @@ gradlePlugin {
 githubRelease {
     token project.hasProperty("github_release_token")? github_release_token: ""
     repo scminfo.origin
-	tagName 'v' + project.version
-	releaseName 'Release ' + project.version
+	tagName {'v' + project.version}
+	releaseName {'Release ' + project.version}
     generateReleaseNotes true 
     draft false 
 	dryRun false
