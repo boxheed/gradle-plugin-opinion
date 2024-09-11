@@ -43,7 +43,7 @@ dependencies {
     runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:4.0.0'
     runtimeOnly 'com.fizzpod:gradle-layout-plugin:4.3.19'
     runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:5.0.0'
-    runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:2.5.20'
+    runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:3.0.0'
     runtimeOnly 'com.fizzpod:gradle-github-release-plugin:2.0.0'
     runtimeOnly 'com.fizzpod:gradle-osv-scanner-plugin:3.0.9'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.51.0'
