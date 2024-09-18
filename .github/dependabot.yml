@@ -11,4 +11,6 @@ updates:
       interval: "weekly"
       day: "wednesday"
     target-branch: "develop"
+    commit-message:
+      prefix: "fix(deps)"
     
