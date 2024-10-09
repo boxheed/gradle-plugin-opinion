@@ -8,16 +8,16 @@ buildscript {
     }
     dependencies {
         classpath 'com.gradle.publish:plugin-publish-plugin:1.3.0'
-        classpath 'com.fizzpod:gradle-git-semver-plugin:0.1.8'
-        classpath 'com.fizzpod:gradle-extended-info-plugin:14.0.0'
-        classpath 'com.fizzpod:gradle-gitignore-plugin:4.0.0'
-        classpath 'com.fizzpod:gradle-layout-plugin:5.0.0'
-        classpath 'com.fizzpod:gradle-sweeney-plugin:5.0.0'
-        classpath 'com.fizzpod:gradle-github-release-plugin:2.0.0'
+        classpath 'com.fizzpod:gradle-git-semver-plugin:0.1.9'
+        classpath 'com.fizzpod:gradle-extended-info-plugin:14.0.2'
+        classpath 'com.fizzpod:gradle-gitignore-plugin:4.0.2'
+        classpath 'com.fizzpod:gradle-layout-plugin:5.0.2'
+        classpath 'com.fizzpod:gradle-sweeney-plugin:5.0.2'
+        classpath 'com.fizzpod:gradle-github-release-plugin:2.0.2'
         classpath 'com.fizzpod:gradle-osv-scanner-plugin:4.0.0'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.51.0'
         classpath 'com.gradle:develocity-gradle-plugin:3.18.1'
-        classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.22'
+        classpath 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.24'
         classpath 'com.gradle:common-custom-user-data-gradle-plugin:2.0.2'
     }
 }
@@ -38,17 +38,17 @@ compileGroovy {
 
 dependencies {
     runtimeOnly 'com.gradle.publish:plugin-publish-plugin:1.3.0'
-    runtimeOnly 'com.fizzpod:gradle-git-semver-plugin:0.1.8'
-    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:14.0.0'
-    runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:4.0.0'
-    runtimeOnly 'com.fizzpod:gradle-layout-plugin:5.0.0'
-    runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:5.0.0'
+    runtimeOnly 'com.fizzpod:gradle-git-semver-plugin:0.1.9'
+    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:14.0.2'
+    runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:4.0.2'
+    runtimeOnly 'com.fizzpod:gradle-layout-plugin:5.0.2'
+    runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:5.0.2'
     runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:3.0.0'
-    runtimeOnly 'com.fizzpod:gradle-github-release-plugin:2.0.0'
+    runtimeOnly 'com.fizzpod:gradle-github-release-plugin:2.0.2'
     runtimeOnly 'com.fizzpod:gradle-osv-scanner-plugin:4.0.0'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.51.0'
     runtimeOnly 'com.gradle:develocity-gradle-plugin:3.18.1'
-    runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.22'
+    runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.24'
     runtimeOnly 'com.gradle:common-custom-user-data-gradle-plugin:2.0.2'
 
 
