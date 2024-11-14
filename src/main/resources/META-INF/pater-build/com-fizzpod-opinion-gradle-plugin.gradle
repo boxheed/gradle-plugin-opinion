@@ -50,8 +50,8 @@ dependencies {
 }
 
 sweeney {
-	enforce 'jdk:[1.8,)'
-	enforce 'gradle:[7.0.0,)'
+    enforce 'jdk:[17,)'
+    enforce 'gradle:[8.0,)'
 }
 
 
