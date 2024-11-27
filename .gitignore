@@ -9,3 +9,6 @@ bin
 .LCKbuild.gradle~
 .osv-scanner
 .git-semver
+.lefthook
+./lefthook
+lefthook-local.yml
