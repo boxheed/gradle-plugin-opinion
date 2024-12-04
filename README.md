@@ -10,20 +10,19 @@ This library uses the `com.fizzpod.pater-build` plugin to apply the build script
 The following should be used in the build script to apply the defaults.
 ```
 buildscript {
-	repositories {
-		mavenLocal()
-		jcenter()
-		maven {
-      url "https://plugins.gradle.org/m2/"
+    repositories {
+        mavenLocal()
+        maven {
+        url "https://plugins.gradle.org/m2/"
     }
-		maven {
-			url "https://dl.bintray.com/boxhead/maven/"
-		}
-	}
-	dependencies {
-			classpath ('com.fizzpod:gradle-plugin-opinion:0.1.4') {
-				exclude group: 'com.fizzpod', module: 'gradle-gitignore-plugin'
-			}
+        maven {
+            url "https://dl.bintray.com/boxhead/maven/"
+        }
+    }
+    dependencies {
+        classpath ('com.fizzpod:gradle-plugin-opinion:20.1.0) {
+            exclude group: 'com.fizzpod', module: 'gradle-gitignore-plugin'
+        }
     }
 }
 
