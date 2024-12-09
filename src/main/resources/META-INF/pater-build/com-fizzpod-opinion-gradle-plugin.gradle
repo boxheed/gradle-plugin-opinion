@@ -133,18 +133,20 @@ spotless {
 
     formatAnnotations()
 
-    licenseHeader '/* SPDX-License-Identifier: Apache-2.0 */\n/* (C) $YEAR */'
+    licenseHeader '/* (C) $YEAR */\n/* SPDX-License-Identifier: Apache-2.0 */\n/* (C) $YEAR */'
   }
-  groovy {
+  
+//  groovy {
 
-    importOrder()
-    removeSemicolons()
-    greclipse()
+//    importOrder()
+//    removeSemicolons()
+//    greclipse()
     
-    licenseHeader '/* SPDX-License-Identifier: Apache-2.0 */\n/* (C) $YEAR */'
+//    licenseHeader "/* (C) $YEAR */\n/* SPDX-License-Identifier: Apache-2.0 */\n/* (C) $YEAR */"
 
-    excludeJava()
-  }
+//    excludeJava()
+//  }
+
   flexmark {
     target '*.md', 'src/**/*.md', 'buildSrc/**/*.md'
     flexmark() 
