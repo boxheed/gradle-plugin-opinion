@@ -10,6 +10,7 @@ apply plugin: 'com.fizzpod.sweeney'
 apply plugin: 'com.fizzpod.lefthook'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'com.github.spotbugs'
+apply plugin: 'com.diffplug.spotless'
 
 def isCI = System.getenv('CI') != null
 
@@ -73,6 +74,10 @@ lefthook {
       "pre-commit": [
         "follow": true,
         "commands": [
+          "spotless": [
+            "glob": "*",
+            "run": "./gradlew spotlessCheck"
+          ],
           "test": [
             "glob": "*.{groovy,java}",
             "run": "./gradlew test"
@@ -112,4 +117,36 @@ tasks.register('resolveAndLockAll') {
             it.canBeResolved
         }.each { it.resolve() }
     }
+}
+
+
+spotless {
+  //ratchetFrom 'origin/master'
+  java {
+    importOrder()
+
+    removeUnusedImports()
+
+    cleanthat()
+
+    googleJavaFormat()
+
+    formatAnnotations()
+
+    licenseHeader '/* SPDX-License-Identifier: Apache-2.0 */\n/* (C) $YEAR */'
+  }
+  groovy {
+
+    importOrder()
+    removeSemicolons()
+    greclipse()
+    
+    licenseHeader '/* SPDX-License-Identifier: Apache-2.0 */\n/* (C) $YEAR */'
+
+    excludeJava()
+  }
+  flexmark {
+    target '*.md', 'src/**/*.md', 'buildSrc/**/*.md'
+    flexmark() 
+  }
 }

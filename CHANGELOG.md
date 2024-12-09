@@ -25,3 +25,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [`57eacce`](https://github.com/boxheed/gradle-plugin-opinion/commit/57eaccecb5e7429b645f7f7286bc4004f2b99a48) chore(deps): bump com.fizzpod:gradle-github-release-plugin
 - [`5090c51`](https://github.com/boxheed/gradle-plugin-opinion/commit/5090c51b7397f4136ed6f6c234248a83e424d434) Merge pull request #191 from boxheed/dependabot/gradle/develop/com.fizzpod-gradle-osv-scanner-plugin-3.0.8
 - [`2cb9aa0`](https://github.com/boxheed/gradle-plugin-opinion/commit/2cb9aa0b9fbf001e571e1522184a4fd4a307c150) chore(deps): bump com.fizzpod:gradle-osv-scanner-plugin
+

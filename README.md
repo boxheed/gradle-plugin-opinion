@@ -7,7 +7,9 @@ This library provides defaults and opinions for gradle plugin development for th
 This library uses the `com.fizzpod.pater-build` plugin to apply the build script included in this library to the root project.
 
 ## Usage
+
 The following should be used in the build script to apply the defaults.
+
 ```
 buildscript {
     repositories {
