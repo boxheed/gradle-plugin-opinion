@@ -79,7 +79,7 @@ lefthook {
             "run": "./gradlew spotlessCheck"
           ],
           "osv": [
-            "glob": "*",
+            "glob": "*.{groovy,java,gradle}",
             "run": "./gradlew osvInstall osvLockAndScan"
           ],
           "test": [
