@@ -32,7 +32,7 @@ artifacts {
 publishing {
     repositories {
         maven {
-            url "s3://artifacts.fizzpod.com/public/mvn"
+            url = "s3://artifacts.fizzpod.com/public/mvn"
             credentials(AwsCredentials) {
                 accessKey = project.hasProperty("mvn_access_key")? mvn_access_key: "";
                 secretKey = project.hasProperty("mvn_secret_key")? mvn_secret_key: "";
@@ -47,14 +47,14 @@ gradlePlugin {
 }
 
 githubRelease {
-    token project.hasProperty("github_release_token")? github_release_token: ""
-    repo scminfo.origin
-	tagName {'v' + project.version}
-	releaseName {'Release ' + project.version}
-    generateReleaseNotes true 
-    draft false 
-	dryRun false
-    releaseAssets { ->
+    token = project.hasProperty("github_release_token")? github_release_token: ""
+    repo = scminfo.origin
+	tagName = {'v' + project.version}
+	releaseName = {'Release ' + project.version}
+    generateReleaseNotes = true 
+    draft = false 
+	dryRun = false
+    releaseAssets = { ->
 		jar.outputs.files
 	}
 }
