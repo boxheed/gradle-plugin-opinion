@@ -10,7 +10,7 @@ apply plugin: 'com.fizzpod.sweeney'
 apply plugin: 'com.fizzpod.lefthook'
 apply plugin: 'com.github.ben-manes.versions'
 //apply plugin: 'com.github.spotbugs'
-apply plugin: 'net.ltgt.errorprone'
+//apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'com.diffplug.spotless'
 
 def isCI = System.getenv('CI') != null
@@ -67,11 +67,13 @@ spotbugs {
 */
 
 // configure error prone
+/*
 tasks.withType(JavaCompile).configureEach {
     options.errorprone {
         option("disableWarningsInGeneratedCode", "true")
     }
 }
+*/
 
 
 lefthook {
