@@ -137,8 +137,9 @@ tasks.register('resolveAndLockAll') {
 
 
 spotless {
-  //ratchetFrom 'origin/master'
+  ratchetFrom 'origin/develop'
   java {
+    target 'buildSrc/**/*.java', 'src/main/java/**/*.java'
     importOrder()
 
     removeUnusedImports()
