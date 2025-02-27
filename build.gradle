@@ -59,6 +59,13 @@ dependencies {
 
 
     constraints {
+        implementation('net.minidev:json-smart:2.5.2') {
+            because 'version 2.5.1 imported as a dependency has a vulnerability'
+            version {
+                require '2.5.2'
+            }
+        }
+
         implementation('org.bouncycastle:bcpg-jdk18on') {
             because 'version 1.77 imported as a dependency has a vulnerability'
             version {
