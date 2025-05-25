@@ -2,6 +2,14 @@
 apply plugin: 'jacoco'
 
 
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events "started", "passed", "skipped", "failed"
+    }
+}
+
 jacoco {
     toolVersion = "0.8.12"
 }
