@@ -24,3 +24,5 @@ jacocoTestCoverageVerification {
         }
     }
 }
+
+check.dependsOn jacocoTestCoverageVerification
