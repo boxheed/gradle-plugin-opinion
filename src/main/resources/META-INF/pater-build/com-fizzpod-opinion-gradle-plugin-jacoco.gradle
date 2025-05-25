@@ -14,3 +14,13 @@ jacocoTestReport {
 }
 
 build.dependsOn jacocoTestReport
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+              minimum = project.hasProperty('coverageMinimum') ? project.coverageMinimum.toBigDecimal() : 0.70
+            }
+        }
+    }
+}
