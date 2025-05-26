@@ -8,6 +8,8 @@ test {
     testLogging {
         events "started", "passed", "skipped", "failed"
     }
+
+    finalizedBy jacocoTestReport
 }
 
 jacoco {
@@ -18,6 +20,7 @@ jacocoTestReport {
     reports {
         xml.required = true
         csv.required = false
+        html.required = true
     }
 }
 
