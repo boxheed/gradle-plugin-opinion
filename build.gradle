@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath 'com.gradle.publish:plugin-publish-plugin:1.3.1'
         classpath 'com.fizzpod:gradle-git-semver-plugin:0.2.6'
-        classpath 'com.fizzpod:gradle-extended-info-plugin:14.1.6'
+        classpath 'com.fizzpod:gradle-extended-info-plugin:14.1.7'
         classpath 'com.fizzpod:gradle-gitignore-plugin:4.1.6'
         classpath 'com.fizzpod:gradle-layout-plugin:5.1.5'
         classpath 'com.fizzpod:gradle-sweeney-plugin:6.0.6'
@@ -42,7 +42,7 @@ compileGroovy {
 dependencies {
     runtimeOnly 'com.gradle.publish:plugin-publish-plugin:1.3.1'
     runtimeOnly 'com.fizzpod:gradle-git-semver-plugin:0.2.6'
-    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:14.1.6'
+    runtimeOnly 'com.fizzpod:gradle-extended-info-plugin:14.1.7'
     runtimeOnly 'com.fizzpod:gradle-gitignore-plugin:4.1.6'
     runtimeOnly 'com.fizzpod:gradle-layout-plugin:5.1.5'
     runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:6.0.6'
