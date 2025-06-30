@@ -32,11 +32,11 @@ apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradl
 apply from: './src/main/resources/META-INF/pater-build/com-fizzpod-opinion-gradle-plugin-publish.gradle'
 
 compileJava {
-    options.release = 11
+    options.release = 17
 }
 
 compileGroovy {
-    options.release = 11
+    options.release = 17
 }
 
 dependencies {
