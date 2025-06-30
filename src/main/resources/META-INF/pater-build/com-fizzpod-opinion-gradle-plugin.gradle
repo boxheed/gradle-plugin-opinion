@@ -27,16 +27,16 @@ develocity {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
 compileJava {
-    options.release = 8
+    options.release = 17
 }
 
 compileGroovy {
-    options.release = 8
+    options.release = 17
 }
 
 repositories {
