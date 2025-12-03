@@ -48,7 +48,7 @@ dependencies {
     runtimeOnly 'com.fizzpod:gradle-layout-plugin:6.0.2'
     runtimeOnly 'com.fizzpod:gradle-lefthook-plugin:0.3.2'
     runtimeOnly 'com.fizzpod:gradle-osv-scanner-plugin:5.0.3'
-    runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:4.0.1'
+    runtimeOnly 'com.fizzpod:gradle-pater-build-plugin:4.0.2'
     runtimeOnly 'com.fizzpod:gradle-sweeney-plugin:7.0.2'
     runtimeOnly 'com.github.ben-manes:gradle-versions-plugin:0.53.0'
     runtimeOnly 'com.gradle:develocity-gradle-plugin:4.2.2'
