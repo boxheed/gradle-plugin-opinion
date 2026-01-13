@@ -75,12 +75,12 @@ tasks.withType(JavaCompile).configureEach {
 }
 */
 
-
+/*
 lefthook {
-  options = {
+  options {
     autoinstall = true
   }
-  config = {
+  config {
     [
       "assert_lefthook_installed": true,
       "pre-commit": [
@@ -111,7 +111,7 @@ lefthook {
     ]
   }
 }
-
+*/
 dependencyLocking {
     lockAllConfigurations()
 }
