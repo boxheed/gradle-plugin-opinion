@@ -17,11 +17,13 @@ def isCI = System.getenv('CI') != null
 
 
 
-develocity {
-    buildScan {
-        termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'    
-        termsOfUseAgree = 'yes'            
-         publishing.onlyIf { isCI }                      
+if (isCI) {
+    develocity {
+        buildScan {
+            termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'
+            termsOfUseAgree = 'yes'
+            publishing.onlyIf { isCI }
+        }
     }
 }
 
