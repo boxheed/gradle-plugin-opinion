@@ -17,13 +17,11 @@ def isCI = System.getenv('CI') != null
 
 
 
-if (isCI) {
-    develocity {
-        buildScan {
-            termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'
-            termsOfUseAgree = 'yes'
-            publishing.onlyIf { isCI }
-        }
+develocity {
+    buildScan {
+        termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'
+        termsOfUseAgree = 'yes'
+        publishing.onlyIf { isCI }
     }
 }
 
@@ -76,13 +74,10 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 */
-
-/*
 lefthook {
-  options {
-    autoinstall = true
-  }
-  config {
+  
+  autoInstall = ! System.getenv('CI') != null
+  config =
     [
       "assert_lefthook_installed": true,
       "pre-commit": [
@@ -111,9 +106,9 @@ lefthook {
         ]
       ]
     ]
-  }
+  
 }
-*/
+
 dependencyLocking {
     lockAllConfigurations()
 }
