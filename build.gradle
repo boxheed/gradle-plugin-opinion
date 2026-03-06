@@ -88,6 +88,25 @@ dependencies {
             }
         }
 
-        
+        implementation('com.fasterxml.jackson.core:jackson-core') {
+            because 'version imported as a dependency has a vulnerability'
+            version {
+                strictly '2.18.6'
+            }
+        }
+
+        implementation('com.fasterxml.jackson.core:jackson-annotations') {
+            because 'version imported as a dependency has a vulnerability'
+            version {
+                strictly '2.18.6'
+            }
+        }
+
+        implementation('com.fasterxml.jackson.core:jackson-databind') {
+            because 'version imported as a dependency has a vulnerability'
+            version {
+                strictly '2.18.6'
+            }
+        }
     }
 }
