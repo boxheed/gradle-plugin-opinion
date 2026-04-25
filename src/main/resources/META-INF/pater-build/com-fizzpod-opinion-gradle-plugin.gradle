@@ -1,5 +1,4 @@
 //Builtin plugins
-//apply plugin: 'com.gradle.enterprise'
 apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'project-report'
@@ -9,19 +8,14 @@ apply plugin: 'com.fizzpod.info'
 apply plugin: 'com.fizzpod.sweeney'
 apply plugin: 'com.fizzpod.lefthook'
 apply plugin: 'com.github.ben-manes.versions'
-//apply plugin: 'com.github.spotbugs'
-//apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'com.diffplug.spotless'
-
-def isCI = System.getenv('CI') != null
-
-
 
 develocity {
     buildScan {
         termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'
         termsOfUseAgree = 'yes'
-        publishing.onlyIf { isCI }
+        publishing.onlyIf { false }
+        uploadInBackground = System.getenv("CI") == null
     }
 }
 
@@ -57,56 +51,38 @@ sweeney {
     enforce 'gradle:[8.0,)'
 }
 
-/*
-spotbugs {
-    ignoreFailures = true
-    showStackTraces = true
-    showProgress = true
-    reportsDir = file("$buildDir/spotbugs")
-}
-*/
-
-// configure error prone
-/*
-tasks.withType(JavaCompile).configureEach {
-    options.errorprone {
-        option("disableWarningsInGeneratedCode", "true")
-    }
-}
-*/
 lefthook {
   
   autoInstall = ! System.getenv('CI') != null
-  config =
-    [
-      "assert_lefthook_installed": true,
-      "pre-commit": [
-        "follow": true,
-        "commands": [
-          "spotless": [
-            "glob": "*",
-            "run": "./gradlew spotlessCheck"
-          ],
-          "osv": [
-            "glob": "*.{groovy,java,gradle}",
-            "run": "./gradlew osvInstall osvLockAndScan"
-          ],
-          "test": [
-            "glob": "*.{groovy,java}",
-            "run": "./gradlew test"
-          ]
+  config = [
+    "assert_lefthook_installed": true,
+    "pre-commit": [
+      "follow": true,
+      "commands": [
+        "spotless": [
+          "glob": "*",
+          "run": "./gradlew spotlessCheck"
+        ],
+        "osv": [
+          "glob": "*.{groovy,java,gradle}",
+          "run": "./gradlew osvInstall osvLockAndScan"
+        ],
+        "test": [
+          "glob": "*.{groovy,java}",
+          "run": "./gradlew test"
         ]
-      ],
-      "commit-msg": [
-        "follow": true,
-        "scripts": [
-          {install "https://raw.githubusercontent.com/joaobsjunior/sh-conventional-commits/16dbdae09db941718750db62d4fdbd737da7784e/commit-msg"}: [
-            "runner": "bash"
-          ]
+      ]
+    ],
+    "commit-msg": [
+      "follow": true,
+      "scripts": [
+        {install "https://raw.githubusercontent.com/joaobsjunior/sh-conventional-commits/16dbdae09db941718750db62d4fdbd737da7784e/commit-msg"}: [
+          "runner": "bash"
         ]
       ]
     ]
-  
+  ]
+
 }
 
 dependencyLocking {
