@@ -10,14 +10,6 @@ apply plugin: 'com.fizzpod.lefthook'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'com.diffplug.spotless'
 
-develocity {
-    buildScan {
-        termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'
-        termsOfUseAgree = 'yes'
-        publishing.onlyIf { false }
-        uploadInBackground = System.getenv("CI") == null
-    }
-}
 
 java {
     toolchain {
