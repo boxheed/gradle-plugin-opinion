@@ -30,7 +30,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-              minimum = project.hasProperty('coverageMinimum') ? project.coverageMinimum.toBigDecimal() : 0.70
+                minimum = project.hasProperty('coverageMinimum') ? project.coverageMinimum.toBigDecimal() : 0.70
             }
         }
     }

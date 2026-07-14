@@ -3,11 +3,11 @@ apply plugin: 'com.fizzpod.gitignore'
 apply plugin: 'com.fizzpod.layout'
 
 layout {
-  file('README.md') {
-    "# " + project.name
-  }
-  file('LICENSE')
-  file('.circleci/config.yml')
+    file('README.md') {
+        "# " + project.name
+    }
+    file('LICENSE')
+    file('.circleci/config.yml')
 }
 
 gitignore {
