@@ -10,14 +10,6 @@ apply plugin: 'com.fizzpod.lefthook'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'com.diffplug.spotless'
 
-develocity {
-    buildScan {
-        termsOfUseUrl = 'https://gradle.com/help/legal-terms-of-use'
-        termsOfUseAgree = 'yes'
-        publishing.onlyIf { false }
-        uploadInBackground = System.getenv("CI") == null
-    }
-}
 
 java {
     toolchain {
@@ -34,16 +26,16 @@ compileGroovy {
 }
 
 repositories {
-  mavenLocal()
-  mavenCentral()
-  maven {
-    url = "https://plugins.gradle.org/m2/"
-  }
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url = "https://plugins.gradle.org/m2/"
+    }
 }
 
 dependencies {
-	api gradleApi()
-	implementation localGroovy()
+    api gradleApi()
+    implementation localGroovy()
 }
 
 sweeney {
@@ -52,37 +44,35 @@ sweeney {
 }
 
 lefthook {
-  
-  autoInstall = ! System.getenv('CI') != null
-  config = [
-    "assert_lefthook_installed": true,
-    "pre-commit": [
-      "follow": true,
-      "commands": [
-        "spotless": [
-          "glob": "*",
-          "run": "./gradlew spotlessCheck"
+    autoInstall = ! System.getenv('CI') != null
+    config = [
+        "assert_lefthook_installed": true,
+        "pre-commit": [
+            "follow": true,
+            "commands": [
+                "spotless": [
+                    "glob": "*",
+                    "run": "./gradlew spotlessCheck"
+                ],
+                "osv": [
+                    "glob": "*.{groovy,java,gradle}",
+                    "run": "./gradlew osvInstall osvLockAndScan"
+                ],
+                "test": [
+                    "glob": "*.{groovy,java}",
+                    "run": "./gradlew test"
+                ]
+            ]
         ],
-        "osv": [
-          "glob": "*.{groovy,java,gradle}",
-          "run": "./gradlew osvInstall osvLockAndScan"
-        ],
-        "test": [
-          "glob": "*.{groovy,java}",
-          "run": "./gradlew test"
+        "commit-msg": [
+            "follow": true,
+            "scripts": [
+                {install "https://raw.githubusercontent.com/joaobsjunior/sh-conventional-commits/16dbdae09db941718750db62d4fdbd737da7784e/commit-msg"}: [
+                    "runner": "bash"
+                ]
+            ]
         ]
-      ]
-    ],
-    "commit-msg": [
-      "follow": true,
-      "scripts": [
-        {install "https://raw.githubusercontent.com/joaobsjunior/sh-conventional-commits/16dbdae09db941718750db62d4fdbd737da7784e/commit-msg"}: [
-          "runner": "bash"
-        ]
-      ]
     ]
-  ]
-
 }
 
 dependencyLocking {
@@ -110,32 +100,32 @@ tasks.register('resolveAndLockAll') {
 
 
 spotless {
-  ratchetFrom 'origin/develop'
-  java {
-    target 'buildSrc/**/*.java', 'src/main/java/**/*.java'
-    importOrder()
+    ratchetFrom 'origin/develop'
+    java {
+        target 'buildSrc/**/*.java', 'src/main/java/**/*.java'
+        importOrder()
 
-    removeUnusedImports()
+        removeUnusedImports()
 
-    cleanthat()
+        cleanthat()
 
-    googleJavaFormat()
+        googleJavaFormat()
 
-    formatAnnotations()
+        formatAnnotations()
 
-    licenseHeader '/* (C) $YEAR */\n/* SPDX-License-Identifier: Apache-2.0 */'
-  }
-  
-  groovy {
-    target 'buildSrc/**/*.groovy', 'src/**/*.groovy'
-    importOrder()
-    removeSemicolons()
-    //greclipse generally doesn't work so don't apply it
-//    greclipse()
-    licenseHeader '/* (C) $YEAR */\n/* SPDX-License-Identifier: Apache-2.0 */'
-  }
-  flexmark {
-    target '*.md', 'src/**/*.md', 'buildSrc/**/*.md'
-    flexmark() 
-  }
+        licenseHeader '/* (C) $YEAR */\n/* SPDX-License-Identifier: Apache-2.0 */'
+    }
+
+    groovy {
+        target 'buildSrc/**/*.groovy', 'src/**/*.groovy'
+        importOrder()
+        removeSemicolons()
+        //greclipse generally doesn't work so don't apply it
+        //greclipse()
+        licenseHeader '/* (C) $YEAR */\n/* SPDX-License-Identifier: Apache-2.0 */'
+    }
+    flexmark {
+        target '*.md', 'src/**/*.md', 'buildSrc/**/*.md'
+        flexmark()
+    }
 }
