@@ -79,35 +79,50 @@ def create_issue(vuln_id, summary, affected_packages, target_branch, dry_run):
 @jules Please remediate this vulnerability in the repository.
 
 ### Instructions for Jules:
-1. Review `build.gradle` and `osv-scanner.toml`.
-2. If this is a direct dependency, upgrade its version in `buildscript.dependencies` or `dependencies`.
-3. If it is a transitive dependency, add or update a constraint in the `constraints {{ ... }}` block in `build.gradle` (refer to existing patterns in `build.gradle`) to enforce a fixed, non-vulnerable version.
-4. Verify the fix by running:
+1. All changes and Pull Requests MUST be based on and target the `{target_branch}` branch (do NOT target master).
+2. Review `build.gradle` and `osv-scanner.toml`.
+3. If this is a direct dependency, upgrade its version in `buildscript.dependencies` or `dependencies`.
+4. If it is a transitive dependency, add or update a constraint in the `constraints {{ ... }}` block in `build.gradle` (refer to existing patterns in `build.gradle`) to enforce a fixed, non-vulnerable version.
+5. Verify the fix by running:
    ```bash
    ./gradlew osvInstall osvLockAndScan
    ./gradlew spotlessApply
    ./gradlew test
    ```
-5. Use conventional commit formatting: `fix(deps): remediate {vuln_id}`
-6. Submit a Pull Request targeting the `{target_branch}` branch that references and closes this issue (`Fixes #<issue-id>`).
+6. Use conventional commit formatting: `fix(deps): remediate {vuln_id}`
+7. Submit a Pull Request targeting the `{target_branch}` branch that references and closes this issue (`Fixes #<issue-id>`).
 """
 
     if dry_run:
-        print(f"[DRY-RUN] Would create issue:\nTitle: {title}\nLabels: jules, security\nBody:\n{body}\n" + "-"*50)
+        print(f"[DRY-RUN] Would create issue:\nTitle: {title}\nLabels: security -> then add jules\nBody:\n{body}\n" + "-"*50)
         return True
 
-    cmd = [
+    # Step 1: Create issue with 'security' label first
+    create_cmd = [
         "gh", "issue", "create",
         "--title", title,
-        "--label", "jules,security",
+        "--label", "security",
         "--body", body
     ]
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-        print(f"Created issue for {vuln_id}: {result.stdout.strip()}")
-        return True
+        result = subprocess.run(create_cmd, capture_output=True, text=True, check=True)
+        issue_ref = result.stdout.strip()
+        print(f"Created issue for {vuln_id}: {issue_ref}")
     except subprocess.CalledProcessError as e:
         print(f"Error creating issue for {vuln_id}: {e.stderr}")
+        return False
+
+    # Step 2: Apply 'jules' label separately so GitHub emits the 'issues.labeled' webhook event
+    label_cmd = [
+        "gh", "issue", "edit", issue_ref,
+        "--add-label", "jules"
+    ]
+    try:
+        subprocess.run(label_cmd, capture_output=True, text=True, check=True)
+        print(f"Added 'jules' label to issue {issue_ref} to trigger Jules remediation agent.")
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Error adding 'jules' label to issue {issue_ref}: {e.stderr}")
         return False
 
 def main():

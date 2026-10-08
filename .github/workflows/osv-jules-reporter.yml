@@ -52,7 +52,7 @@ jobs:
         # Only create issues on scheduled runs or manual dispatches, not PRs
         if: github.event_name != 'pull_request' && (steps.scan.outcome == 'failure' || inputs.dry_run)
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.JULES_TRIGGER_PAT || secrets.GITHUB_TOKEN }}
         run: |
           DRY_RUN_FLAG=""
           if [ "${{ inputs.dry_run }}" = "true" ]; then

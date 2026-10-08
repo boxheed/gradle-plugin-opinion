@@ -1,0 +1,29 @@
+name: Retarget Jules PRs to develop
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  retarget-jules-pr:
+    runs-on: ubuntu-latest
+    if: >-
+      github.event.pull_request.base.ref == 'master' && (
+        startsWith(github.event.pull_request.head.ref, 'fix/remediate-') ||
+        contains(github.event.pull_request.head.ref, 'jules') ||
+        contains(github.event.pull_request.body, 'jules.google.com/task/') ||
+        contains(github.event.pull_request.body, 'PR created automatically by Jules')
+      )
+    steps:
+      - name: Retarget PR base branch to develop
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          echo "Detected Jules remediation PR targeting 'master'. Retargeting to 'develop'..."
+          gh pr edit "$PR_URL" --base develop
+          echo "Successfully retargeted PR $PR_URL to 'develop'."
