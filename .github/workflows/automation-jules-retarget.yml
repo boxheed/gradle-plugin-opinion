@@ -1,4 +1,4 @@
-name: Retarget Jules PRs to Target Branch
+name: 'Automation: Jules PR Retarget'
 
 on:
   pull_request_target:

@@ -1,4 +1,4 @@
-name: OSV Vulnerability Scan & Jules Remediation
+name: 'Security: OSV Scan & Remediation'
 
 on:
   schedule:
