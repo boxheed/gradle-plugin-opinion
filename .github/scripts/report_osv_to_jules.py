@@ -35,13 +35,19 @@ def parse_args():
     )
     return parser.parse_args()
 
-def check_existing_issue(vuln_id):
-    """Checks if an open issue already exists containing this vulnerability ID."""
-    cmd = ["gh", "issue", "list", "--state", "open", "--search", vuln_id, "--json", "number,title"]
+def check_existing_issue(vuln_id, target_branch):
+    """Checks if an open issue already exists containing this vulnerability ID for this target branch."""
+    cmd = ["gh", "issue", "list", "--state", "open", "--search", vuln_id, "--json", "number,title,body"]
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         issues = json.loads(result.stdout)
-        return issues[0] if issues else None
+        for issue in issues:
+            title = issue.get("title", "")
+            body = issue.get("body", "")
+            if vuln_id in title or vuln_id in body:
+                if target_branch in title or f"Target Branch: `{target_branch}`" in body or f"target the `{target_branch}`" in body:
+                    return issue
+        return None
     except Exception as e:
         print(f"Warning: Failed to query existing issues via gh: {e}")
         return None
@@ -67,7 +73,7 @@ def create_issue(vuln_id, summary, affected_packages, target_branch, dry_run):
     """Creates a GitHub issue with instructions for Jules."""
     packages_md = "\n".join([f"- `{pkg['name']}` (detected version: `{pkg['version']}`)" for pkg in affected_packages])
 
-    title = f"Security: Remediate {vuln_id}"
+    title = f"Security: Remediate {vuln_id} on {target_branch}"
     body = f"""### Vulnerability Detected
 
 - **Vulnerability ID:** [{vuln_id}](https://osv.dev/vulnerability/{vuln_id})
@@ -76,10 +82,10 @@ def create_issue(vuln_id, summary, affected_packages, target_branch, dry_run):
 {packages_md}
 - **Target Branch:** `{target_branch}`
 
-@jules Please remediate this vulnerability in the repository.
+@jules Please remediate this vulnerability on the branch `{target_branch}` in the repository.
 
 ### Instructions for Jules:
-1. All changes and Pull Requests MUST be based on and target the `{target_branch}` branch (do NOT target master).
+1. Base your work on the branch `{target_branch}`: checkout `{target_branch}` (e.g. `git fetch origin {target_branch} && git checkout {target_branch}`) before making changes.
 2. Review `build.gradle` and `osv-scanner.toml`.
 3. If this is a direct dependency, upgrade its version in `buildscript.dependencies` or `dependencies`.
 4. If it is a transitive dependency, add or update a constraint in the `constraints {{ ... }}` block in `build.gradle` (refer to existing patterns in `build.gradle`) to enforce a fixed, non-vulnerable version.
@@ -91,6 +97,7 @@ def create_issue(vuln_id, summary, affected_packages, target_branch, dry_run):
    ```
 6. Use conventional commit formatting: `fix(deps): remediate {vuln_id}`
 7. Submit a Pull Request targeting the `{target_branch}` branch that references and closes this issue (`Fixes #<issue-id>`).
+8. Include `Target Branch: {target_branch}` in the Pull Request description.
 """
 
     if dry_run:
@@ -127,6 +134,11 @@ def create_issue(vuln_id, summary, affected_packages, target_branch, dry_run):
 
 def main():
     args = parse_args()
+
+    # Prevent recursive runs on Jules's own remediation PRs/branches
+    if args.target_branch.startswith("fix/remediate-") or args.target_branch.startswith("jules/"):
+        print(f"Skipping issue creation on Jules remediation branch: {args.target_branch}")
+        sys.exit(0)
 
     if not os.path.exists(args.report):
         print(f"Report file not found: {args.report}")
@@ -175,9 +187,9 @@ def main():
             print(f"Reached maximum issue limit ({args.max_issues}). Deferring remaining vulnerabilities to next run.")
             break
 
-        existing = check_existing_issue(vuln_id) if not args.dry_run else None
+        existing = check_existing_issue(vuln_id, args.target_branch) if not args.dry_run else None
         if existing:
-            print(f"Open issue already exists for {vuln_id}: #{existing.get('number')} - '{existing.get('title')}'. Skipping.")
+            print(f"Open issue already exists for {vuln_id} on {args.target_branch}: #{existing.get('number')} - '{existing.get('title')}'. Skipping.")
             continue
 
         success = create_issue(

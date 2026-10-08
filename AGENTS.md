@@ -7,12 +7,12 @@ Welcome to `gradle-plugin-opinion`. This document outlines the project conventio
 ## 1. Branching Strategy & Target Branch
 
 > [!IMPORTANT]
-> **All Pull Requests MUST target the `develop` branch.**
+> **All Pull Requests MUST target the branch specified in the task / issue description (defaulting to `develop` if unspecified).**
 > Never open Pull Requests against `master`.
 
-- **Target / Base Branch:** `develop`
-- **Feature / Fix Branches:** Must branch from `develop`.
-- **Master Branch:** Reserved exclusively for releases and automated versioning.
+- **Target / Base Branch:** Follow the branch specified in the issue/task (e.g. `- **Target Branch:** <branch>`). Defaults to `develop`.
+- **Branch-Specific Remediations:** When remediating a vulnerability on a branch (such as a Dependabot PR branch `dependabot/...` or feature branch), checkout that branch, apply the fix, and submit the Pull Request targeting that specific branch.
+- **Master Branch:** Reserved exclusively for releases and automated versioning. Never target `master`.
 
 ---
 

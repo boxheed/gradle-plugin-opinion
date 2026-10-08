@@ -49,8 +49,7 @@ jobs:
         continue-on-error: true
 
       - name: Report Findings to Jules via GitHub Issues
-        # Only create issues on scheduled runs or manual dispatches, not PRs
-        if: github.event_name != 'pull_request' && (steps.scan.outcome == 'failure' || inputs.dry_run)
+        if: steps.scan.outcome == 'failure' || inputs.dry_run
         env:
           GH_TOKEN: ${{ secrets.JULES_TRIGGER_PAT || secrets.GITHUB_TOKEN }}
         run: |
@@ -59,9 +58,12 @@ jobs:
             DRY_RUN_FLAG="--dry-run"
           fi
 
+          # Use PR head branch if triggered by pull_request, otherwise use current branch
+          TARGET_BRANCH="${{ github.head_ref || github.ref_name }}"
+
           python3 .github/scripts/report_osv_to_jules.py \
             --report build/osv-scanner/osv-scanner-scan.json \
-            --target-branch develop \
+            --target-branch "$TARGET_BRANCH" \
             $DRY_RUN_FLAG
 
       - name: Gate Check
