@@ -35,8 +35,6 @@ When remediating vulnerabilities detected by OSV Scanner or security issues:
      ```
 3. **Commit Formatting:**
    - Follow Conventional Commits: `fix(deps): remediate <VULNERABILITY_ID>`
-4. **Issue Closing:**
-   - Link and close the tracking issue in your Pull Request description: `Fixes #<issue-number>`
 
 ---
 

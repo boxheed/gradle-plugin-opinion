@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: 'Dry run: parse and preview issues without creating them'
+        description: 'Dry run: scan and preview prompt without triggering Jules'
         type: boolean
         default: false
         required: false
@@ -17,7 +17,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
 
 jobs:
   osv-scan:
@@ -41,31 +40,47 @@ jobs:
       - name: Grant execute permissions for gradlew and scripts
         run: |
           chmod +x ./gradlew
-          chmod +x .github/scripts/report_osv_to_jules.py
+          chmod +x .github/scripts/prepare_jules_prompt.py
 
       - name: Run OSV Lock and Scan
         id: scan
         run: ./gradlew osvInstall osvLockAndScan
         continue-on-error: true
 
-      - name: Reconcile and Report Findings to Jules via GitHub Issues
-        if: always() && steps.scan.conclusion != 'skipped'
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.JULES_TRIGGER_PAT || secrets.GITHUB_TOKEN }}
+      - name: Prepare Jules Remediation Prompt
+        id: prepare-prompt
+        if: (steps.scan.outcome == 'failure' || inputs.dry_run) && !startsWith(github.head_ref || github.ref_name, 'fix/remediate-') && !startsWith(github.head_ref || github.ref_name, 'jules/')
         run: |
-          DRY_RUN_FLAG=""
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
-            DRY_RUN_FLAG="--dry-run"
-          fi
-
-          # Use PR head branch if triggered by pull_request, otherwise use current branch
           TARGET_BRANCH="${{ github.head_ref || github.ref_name }}"
+          echo "target_branch=$TARGET_BRANCH" >> $GITHUB_OUTPUT
 
-          python3 .github/scripts/report_osv_to_jules.py \
+          python3 .github/scripts/prepare_jules_prompt.py \
             --report build/osv-scanner/osv-scanner-scan.json \
             --target-branch "$TARGET_BRANCH" \
-            $DRY_RUN_FLAG
+            --output prompt.txt
+
+          if [ -s prompt.txt ]; then
+            echo "has_vulnerabilities=true" >> $GITHUB_OUTPUT
+            EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+            echo "prompt<<$EOF" >> "$GITHUB_OUTPUT"
+            cat prompt.txt >> "$GITHUB_OUTPUT"
+            echo "$EOF" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_vulnerabilities=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Trigger Jules Remediation via Jules API
+        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.prepare-prompt.outputs.has_vulnerabilities == 'true' && secrets.JULES_API_KEY != ''
+        uses: google-labs-code/jules-action@v1
+        with:
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          starting_branch: ${{ steps.prepare-prompt.outputs.target_branch }}
+          prompt: ${{ steps.prepare-prompt.outputs.prompt }}
+
+      - name: Check for Missing JULES_API_KEY Secret
+        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.prepare-prompt.outputs.has_vulnerabilities == 'true' && secrets.JULES_API_KEY == ''
+        run: |
+          echo "::warning::JULES_API_KEY secret is not configured. Add JULES_API_KEY from https://jules.google.com/settings to repository secrets to enable autonomous remediation."
 
       - name: Gate Check
         if: steps.scan.outcome == 'failure'
