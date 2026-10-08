@@ -50,6 +50,8 @@ jobs:
       - name: Prepare Jules Remediation Prompt
         id: prepare-prompt
         if: (steps.scan.outcome == 'failure' || inputs.dry_run) && !startsWith(github.head_ref || github.ref_name, 'fix/remediate-') && !startsWith(github.head_ref || github.ref_name, 'jules/')
+        env:
+          JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
         run: |
           TARGET_BRANCH="${{ github.head_ref || github.ref_name }}"
           echo "target_branch=$TARGET_BRANCH" >> $GITHUB_OUTPUT
@@ -69,8 +71,14 @@ jobs:
             echo "has_vulnerabilities=false" >> $GITHUB_OUTPUT
           fi
 
+          if [ -n "$JULES_API_KEY" ]; then
+            echo "has_api_key=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_api_key=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Trigger Jules Remediation via Jules API
-        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.prepare-prompt.outputs.has_vulnerabilities == 'true' && secrets.JULES_API_KEY != ''
+        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.prepare-prompt.outputs.has_vulnerabilities == 'true' && steps.prepare-prompt.outputs.has_api_key == 'true'
         uses: google-labs-code/jules-action@v1
         with:
           jules_api_key: ${{ secrets.JULES_API_KEY }}
@@ -78,7 +86,7 @@ jobs:
           prompt: ${{ steps.prepare-prompt.outputs.prompt }}
 
       - name: Check for Missing JULES_API_KEY Secret
-        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.prepare-prompt.outputs.has_vulnerabilities == 'true' && secrets.JULES_API_KEY == ''
+        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.prepare-prompt.outputs.has_vulnerabilities == 'true' && steps.prepare-prompt.outputs.has_api_key != 'true'
         run: |
           echo "::warning::JULES_API_KEY secret is not configured. Add JULES_API_KEY from https://jules.google.com/settings to repository secrets to enable autonomous remediation."
 
