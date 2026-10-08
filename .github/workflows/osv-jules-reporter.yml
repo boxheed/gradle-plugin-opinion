@@ -48,8 +48,9 @@ jobs:
         run: ./gradlew osvInstall osvLockAndScan
         continue-on-error: true
 
-      - name: Report Findings to Jules via GitHub Issues
-        if: steps.scan.outcome == 'failure' || inputs.dry_run
+      - name: Reconcile and Report Findings to Jules via GitHub Issues
+        if: always() && steps.scan.conclusion != 'skipped'
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.JULES_TRIGGER_PAT || secrets.GITHUB_TOKEN }}
         run: |

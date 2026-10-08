@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """
-Parses OSV-Scanner JSON report and files remediation issues for Google Jules via GitHub CLI (gh).
-Includes deduplication against existing open issues.
+Parses OSV-Scanner JSON report and manages remediation issues for Google Jules via GitHub CLI (gh).
+- Deduplicates against existing open issues.
+- Automatically closes open issues when vulnerabilities are resolved (directly or as side-effects).
+- Directs Jules to remediate on the specific target branch.
 """
 
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Report OSV scan vulnerabilities to Jules via GitHub Issues")
+    parser = argparse.ArgumentParser(description="Report and reconcile OSV scan vulnerabilities for Jules via GitHub Issues")
     parser.add_argument(
         "--report",
         default="build/osv-scanner/osv-scanner-scan.json",
@@ -20,7 +23,7 @@ def parse_args():
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Print issues that would be created without creating them via gh"
+        help="Print actions that would be taken without creating or closing issues via gh"
     )
     parser.add_argument(
         "--max-issues",
@@ -35,22 +38,89 @@ def parse_args():
     )
     return parser.parse_args()
 
-def check_existing_issue(vuln_id, target_branch):
-    """Checks if an open issue already exists containing this vulnerability ID for this target branch."""
-    cmd = ["gh", "issue", "list", "--state", "open", "--search", vuln_id, "--json", "number,title,body"]
+def extract_issue_metadata(issue):
+    """Extracts vulnerability ID and target branch from an issue."""
+    body = issue.get("body", "")
+    title = issue.get("title", "")
+
+    vuln_id = None
+    target_branch = None
+
+    # 1. Extract from body:
+    # - **Vulnerability ID:** [GHSA-xxx](...) or GHSA-xxx
+    m_vuln = re.search(r"\*\*Vulnerability ID:\*\*\s*(?:\[([^\]]+)\]|([A-Za-z0-9_-]+))", body)
+    if m_vuln:
+        vuln_id = (m_vuln.group(1) or m_vuln.group(2)).strip()
+
+    # - **Target Branch:** `develop` or develop
+    m_branch = re.search(r"\*\*Target Branch:\*\*\s*(?:`([^`]+)`|([A-Za-z0-9_./-]+))", body)
+    if m_branch:
+        target_branch = (m_branch.group(1) or m_branch.group(2)).strip()
+
+    # 2. Extract from title fallback:
+    # Security: Remediate GHSA-xxx on <target_branch> OR Security: Remediate GHSA-xxx
+    m_title = re.search(r"Security:\s*Remediate\s+([A-Za-z0-9_-]+)(?:\s+on\s+([A-Za-z0-9_./-]+))?", title)
+    if m_title:
+        if not vuln_id:
+            vuln_id = m_title.group(1).strip()
+        if not target_branch and m_title.group(2):
+            target_branch = m_title.group(2).strip()
+
+    return vuln_id, target_branch
+
+def get_open_remediation_issues(target_branch):
+    """Fetches all open security issues for the specified target branch."""
+    cmd = [
+        "gh", "issue", "list",
+        "--state", "open",
+        "--label", "security",
+        "--limit", "100",
+        "--json", "number,title,body"
+    ]
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         issues = json.loads(result.stdout)
+        branch_issues = []
         for issue in issues:
-            title = issue.get("title", "")
-            body = issue.get("body", "")
-            if vuln_id in title or vuln_id in body:
-                if target_branch in title or f"Target Branch: `{target_branch}`" in body or f"target the `{target_branch}`" in body:
-                    return issue
-        return None
+            vuln_id, issue_branch = extract_issue_metadata(issue)
+            # Default issue_branch to develop if unspecified in older issues
+            if not issue_branch:
+                issue_branch = "develop"
+            if vuln_id and issue_branch == target_branch:
+                branch_issues.append((issue, vuln_id))
+        return branch_issues
     except Exception as e:
-        print(f"Warning: Failed to query existing issues via gh: {e}")
-        return None
+        print(f"Warning: Failed to query open issues via gh: {e}")
+        return []
+
+def reconcile_resolved_issues(open_issues, active_vuln_ids, target_branch, dry_run):
+    """
+    Closes open issues whose vulnerabilities are no longer present in the scan report.
+    This handles cases where updating one dependency remediates multiple vulnerabilities.
+    """
+    closed_count = 0
+    for issue, vuln_id in open_issues:
+        if vuln_id not in active_vuln_ids:
+            issue_num = issue["number"]
+            comment = (
+                f"Vulnerability `{vuln_id}` is no longer detected in OSV scan results on branch `{target_branch}`. "
+                f"Closing issue as resolved (either remediated directly or as a side-effect of another dependency update)."
+            )
+            if dry_run:
+                print(f"[DRY-RUN] Would close resolved issue #{issue_num} ({vuln_id}) on {target_branch}: {comment}")
+            else:
+                cmd = [
+                    "gh", "issue", "close", str(issue_num),
+                    "--comment", comment,
+                    "--reason", "completed"
+                ]
+                try:
+                    subprocess.run(cmd, capture_output=True, text=True, check=True)
+                    print(f"Closed resolved issue #{issue_num} ({vuln_id}) on branch '{target_branch}'.")
+                    closed_count += 1
+                except subprocess.CalledProcessError as e:
+                    print(f"Error closing issue #{issue_num}: {e.stderr}")
+    return closed_count
 
 def ensure_labels():
     """Ensures that required labels exist in the repository."""
@@ -151,7 +221,7 @@ def main():
         print(f"Failed to read report JSON: {e}")
         sys.exit(1)
 
-    # Collect vulnerabilities and their affected packages
+    # Collect currently active vulnerabilities and their affected packages
     vulns_map = {}
     for res in data.get("results", []):
         for pkg_entry in res.get("packages", []):
@@ -172,14 +242,28 @@ def main():
                     "version": pkg_version
                 })
 
-    if not vulns_map:
-        print("No vulnerabilities found in report.")
-        sys.exit(0)
-
-    print(f"Found {len(vulns_map)} unique vulnerability/vulnerabilities in scan report.")
+    active_vuln_ids = set(vulns_map.keys())
 
     if not args.dry_run:
         ensure_labels()
+
+    # Fetch open issues for this target branch
+    open_issues = get_open_remediation_issues(args.target_branch) if not args.dry_run else []
+
+    # Reconcile: Close open issues whose vulnerabilities are no longer present in the report
+    closed_count = reconcile_resolved_issues(open_issues, active_vuln_ids, args.target_branch, args.dry_run)
+    if closed_count > 0:
+        print(f"Reconciled and closed {closed_count} resolved issue(s) on branch '{args.target_branch}'.")
+
+    # If no active vulnerabilities remain, exit cleanly
+    if not vulns_map:
+        print("No active vulnerabilities found in report. All clear!")
+        sys.exit(0)
+
+    print(f"Found {len(vulns_map)} active vulnerability/vulnerabilities in scan report.")
+
+    # Determine which vulnerabilities already have an active open issue
+    already_open_vuln_ids = {vuln_id for issue, vuln_id in open_issues if vuln_id in active_vuln_ids}
 
     created_count = 0
     for vuln_id, details in vulns_map.items():
@@ -187,9 +271,8 @@ def main():
             print(f"Reached maximum issue limit ({args.max_issues}). Deferring remaining vulnerabilities to next run.")
             break
 
-        existing = check_existing_issue(vuln_id, args.target_branch) if not args.dry_run else None
-        if existing:
-            print(f"Open issue already exists for {vuln_id} on {args.target_branch}: #{existing.get('number')} - '{existing.get('title')}'. Skipping.")
+        if vuln_id in already_open_vuln_ids:
+            print(f"Open issue already exists for {vuln_id} on {args.target_branch}. Skipping.")
             continue
 
         success = create_issue(
