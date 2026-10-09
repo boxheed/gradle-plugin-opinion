@@ -79,7 +79,7 @@ jobs:
 
       - name: Trigger Jules Remediation via Jules API
         if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.prepare-prompt.outputs.has_vulnerabilities == 'true' && steps.prepare-prompt.outputs.has_api_key == 'true'
-        uses: google-labs-code/jules-action@v1
+        uses: google-labs-code/jules-action@v1.0.0
         with:
           jules_api_key: ${{ secrets.JULES_API_KEY }}
           starting_branch: ${{ steps.prepare-prompt.outputs.target_branch }}
