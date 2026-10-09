@@ -1,4 +1,4 @@
-name: 'Security: OSV Scan & Remediation'
+name: 'security: osv scan and remediation'
 
 on:
   schedule:
