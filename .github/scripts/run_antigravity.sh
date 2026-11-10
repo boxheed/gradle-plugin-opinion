@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODEL="${AGY_MODEL:-gemini-3.8-flash}"
-EFFORT="${AGY_EFFORT:-medium}"
+MODEL="${AGY_MODEL:-gemini-3.5-flash-lite}"
+EFFORT="${AGY_EFFORT:-low}"
 REPORT="${1:-${OSV_REPORT_PATH:-build/osv-scanner/osv-scanner-scan.json}}"
 
 # Ensure Antigravity CLI is installed
@@ -41,7 +41,8 @@ cat << EOF > "${HOME}/.gemini/antigravity-cli/settings.json"
 }
 EOF
 
-echo "Running Antigravity CLI remediation with model: ${MODEL}..."
+echo "Running Antigravity CLI remediation with model: ${MODEL} (effort: ${EFFORT})..."
+set +e
 agy --model "${MODEL}" --effort "${EFFORT}" --output-format stream-json --print "Remediate OSV vulnerabilities in ${REPORT}" | \
   jq --unbuffered -r '
     select(.event == "step_update") |
@@ -53,3 +54,10 @@ agy --model "${MODEL}" --effort "${EFFORT}" --output-format stream-json --print 
       empty
     end
   '
+AGY_EXIT_CODE="${PIPESTATUS[0]}"
+set -e
+
+if [[ "${AGY_EXIT_CODE}" -ne 0 ]]; then
+  echo "::error::Antigravity CLI remediation failed with exit code ${AGY_EXIT_CODE}. If the error was API_KEY_INVALID, verify that GEMINI_API_KEY in your repository secrets is a valid Gemini key from https://aistudio.google.com/app/apikey"
+  exit "${AGY_EXIT_CODE}"
+fi
