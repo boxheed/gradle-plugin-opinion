@@ -102,7 +102,8 @@ tasks.register('resolveAndLockAll') {
 spotless {
     ratchetFrom 'origin/develop'
     java {
-        target 'buildSrc/**/*.java', 'src/main/java/**/*.java'
+        target 'buildSrc/src/**/*.java', 'src/main/java/**/*.java'
+        targetExclude '**/build/**'
         importOrder()
 
         removeUnusedImports()
@@ -117,7 +118,8 @@ spotless {
     }
 
     groovy {
-        target 'buildSrc/**/*.groovy', 'src/**/*.groovy'
+        target 'buildSrc/src/**/*.groovy', 'src/**/*.groovy'
+        targetExclude '**/build/**'
         importOrder()
         removeSemicolons()
         //greclipse generally doesn't work so don't apply it
@@ -125,7 +127,8 @@ spotless {
         licenseHeader '/* (C) $YEAR */\n/* SPDX-License-Identifier: Apache-2.0 */'
     }
     flexmark {
-        target '*.md', 'src/**/*.md', 'buildSrc/**/*.md'
+        target '*.md', 'src/**/*.md', 'buildSrc/src/**/*.md'
+        targetExclude '**/build/**'
         flexmark()
     }
 }
