@@ -53,6 +53,8 @@ dependencies {
     //runtimeOnly 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.1.3'
     runtimeOnly 'com.diffplug.spotless:spotless-plugin-gradle:8.10.4'
 
+    implementation("org.dom4j:dom4j:2.0.0")
+    
     constraints {
         
         implementation('org.bouncycastle:bcpg-jdk18on') {
