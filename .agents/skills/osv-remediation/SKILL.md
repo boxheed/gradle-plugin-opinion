@@ -19,22 +19,34 @@ For each vulnerability entry:
 - Inspect `vulnerabilities[].affected[].ranges[].events` for the minimum `fixed` version that resolves the advisory.
 
 ### 2. Apply Remediation in `build.gradle`
-Inspect `build.gradle` (and `osv-scanner.toml` if applicable):
+Inspect `build.gradle`:
 
-- **Direct Dependencies:**
-  If the affected package is declared directly in `buildscript.dependencies` or `dependencies`, update its version to the fixed version.
+> [!IMPORTANT]
+> - **Only edit `build.gradle`**. Do NOT edit `osv-scanner.toml` or any other configuration file.
+> - **Direct vs Transitive**:
+>   - **Direct Dependency**: If the vulnerable package is explicitly declared in `dependencies { ... }` or `buildscript { dependencies { ... } }`, update its version number directly in that declaration.
+>   - **Transitive Dependency**: If the vulnerable package is NOT directly declared in `build.gradle` (it is brought in transitively by another dependency or plugin), enforce the fixed version inside the project-level `dependencies { constraints { ... } }` block at the bottom of `build.gradle`.
+> - **Never touch `buildscript` for constraints**: The `buildscript { dependencies { ... } }` block at the top only accepts `classpath` entries. NEVER insert `implementation(...)` or `constraints { ... }` inside `buildscript`.
 
-- **Transitive Dependencies:**
-  If the package is a transitive dependency brought in by a plugin or library, enforce the fixed version using a Gradle dependency constraint within the `dependencies { constraints { ... } }` block in `build.gradle`:
+#### Transitive Dependency Constraint Format
+Add the constraint to the existing `dependencies { constraints { ... } }` block at the bottom of `build.gradle`:
 
-  ```groovy
-  implementation('<group>:<artifact>') {
-      because '<reason / CVE / GHSA-id>'
-      version {
-          require '<fixed-version>'
-      }
-  }
-  ```
+```groovy
+dependencies {
+    // ... direct dependencies ...
+
+    constraints {
+        // ... existing constraints ...
+
+        implementation('<group>:<artifact>') {
+            because '<reason / CVE / GHSA-id>'
+            version {
+                require '<fixed-version>'
+            }
+        }
+    }
+}
+```
 
 ### 3. Handle Breaking Changes
 If bumping a dependency introduces compilation or API incompatibilities in the project, update the affected source or test files to restore compatibility while keeping the patched dependency version.

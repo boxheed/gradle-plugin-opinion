@@ -20,20 +20,27 @@ Welcome to `gradle-plugin-opinion`. This document outlines the project conventio
 
 When remediating vulnerabilities detected by OSV Scanner or security issues:
 
-1. **Direct Dependencies:**
-   - Upgrade the dependency version in `buildscript { dependencies { ... } }` or `dependencies { ... }` in [`build.gradle`](file:///workspace/gradle-plugin-opinion/build.gradle).
-2. **Transitive Dependencies:**
-   - Enforce fixed versions using Gradle dependency constraints within the `dependencies { constraints { ... } }` block in [`build.gradle`](file:///workspace/gradle-plugin-opinion/build.gradle):
+1. **Target File:**
+   - Only edit [`build.gradle`](file:///workspace/gradle-plugin-opinion/build.gradle). Do NOT edit `osv-scanner.toml`.
+2. **Direct Dependencies:**
+   - If the affected package is directly declared in `dependencies { ... }` or `buildscript { dependencies { ... } }`, upgrade its version number in place.
+3. **Transitive Dependencies:**
+   - Enforce fixed versions using Gradle dependency constraints within the project-level `dependencies { constraints { ... } }` block at the bottom of [`build.gradle`](file:///workspace/gradle-plugin-opinion/build.gradle):
 
      ```groovy
-     implementation('<group>:<artifact>') {
-         because '<reason / CVE / GHSA-id>'
-         version {
-             require '<fixed-version>'
+     dependencies {
+         constraints {
+             implementation('<group>:<artifact>') {
+                 because '<reason / CVE / GHSA-id>'
+                 version {
+                     require '<fixed-version>'
+                 }
+             }
          }
      }
      ```
-3. **Commit Formatting:**
+   - **Never** add `implementation` or `constraints` inside `buildscript { ... }` (which only supports `classpath`).
+4. **Commit Formatting:**
    - Follow Conventional Commits: `fix(deps): remediate <VULNERABILITY_ID>`
 
 ---
