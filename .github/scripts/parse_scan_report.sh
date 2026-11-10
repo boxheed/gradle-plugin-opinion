@@ -27,7 +27,7 @@ else
   fi
 fi
 
-if [[ -n "${GEMINI_API_KEY:-}" ]]; then
+if [[ -n "${GEMINI_API_KEY:-}" || -n "${OPENROUTER_API_KEY:-}" ]]; then
   if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
     echo "has_api_key=true" >> "$GITHUB_OUTPUT"
   fi
