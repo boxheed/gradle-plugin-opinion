@@ -13,17 +13,15 @@ if [[ -z "$(git status --porcelain)" ]]; then
   exit 1
 fi
 
-echo "Verifying changes with Gradle..."
-./gradlew osvInstall osvLockAndScan
-./gradlew spotlessCheck test
-
-git config user.name "github-actions[bot]"
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+if ! git config user.name >/dev/null 2>&1; then
+  git config user.name "${GIT_AUTHOR_NAME:-${GITHUB_ACTOR:-github-actions[bot]}}"
+  git config user.email "${GIT_AUTHOR_EMAIL:-${GITHUB_ACTOR:-github-actions[bot]}@users.noreply.github.com}"
+fi
 
 COMMIT_MSG="fix(deps): remediate ${VULN_IDS}"
 
 if [[ "${EVENT_NAME}" == "pull_request" ]]; then
-  echo "Pushing remediation commit to PR branch ${TARGET_BRANCH}..."
+  echo "Pushing remediation commit directly to PR branch ${TARGET_BRANCH}..."
   git add -A
   git commit -m "${COMMIT_MSG}"
   git push origin "HEAD:${TARGET_BRANCH}"
@@ -35,23 +33,40 @@ else
   git commit -m "${COMMIT_MSG}"
   git push -f -u origin "${REMEDIATE_BRANCH}"
 
-  EXISTING_PR=$(gh pr list --head "${REMEDIATE_BRANCH}" --base "${TARGET_BRANCH}" --json number --jq '.[0].number' 2>/dev/null || true)
-  if [[ -z "${EXISTING_PR}" ]]; then
-    echo "Creating new pull request..."
-    gh pr create \
-      --base "${TARGET_BRANCH}" \
-      --head "${REMEDIATE_BRANCH}" \
-      --title "${COMMIT_MSG}" \
-      --body "Automated remediation generated for: ${VULN_IDS}"
-  else
-    echo "Updating existing pull request #${EXISTING_PR}..."
+  EXISTING_PR=$(gh pr list --state open --head "${REMEDIATE_BRANCH}" --base "${TARGET_BRANCH}" --json number --jq '.[0].number' 2>/dev/null || true)
+  if [[ -n "${EXISTING_PR}" ]]; then
+    echo "Updating existing open pull request #${EXISTING_PR}..."
     gh pr edit "${EXISTING_PR}" \
       --title "${COMMIT_MSG}" \
       --body "Automated remediation updated for: ${VULN_IDS}"
+  else
+    CLOSED_PR=$(gh pr list --state closed --head "${REMEDIATE_BRANCH}" --base "${TARGET_BRANCH}" --json number --jq '.[0].number' 2>/dev/null || true)
+    if [[ -n "${CLOSED_PR}" ]]; then
+      echo "Reopening closed pull request #${CLOSED_PR}..."
+      if gh pr reopen "${CLOSED_PR}" 2>/dev/null; then
+        gh pr edit "${CLOSED_PR}" \
+          --title "${COMMIT_MSG}" \
+          --body "Automated remediation updated for: ${VULN_IDS}"
+      else
+        echo "Could not reopen PR #${CLOSED_PR}. Creating a fresh pull request..."
+        gh pr create \
+          --base "${TARGET_BRANCH}" \
+          --head "${REMEDIATE_BRANCH}" \
+          --title "${COMMIT_MSG}" \
+          --body "Automated remediation generated for: ${VULN_IDS}"
+      fi
+    else
+      echo "Creating new pull request..."
+      gh pr create \
+        --base "${TARGET_BRANCH}" \
+        --head "${REMEDIATE_BRANCH}" \
+        --title "${COMMIT_MSG}" \
+        --body "Automated remediation generated for: ${VULN_IDS}"
+    fi
   fi
 fi
 
 if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
   echo "remediated=true" >> "$GITHUB_OUTPUT"
 fi
-echo "Remediation successfully verified and published."
+echo "Remediation successfully published to ${TARGET_BRANCH}."

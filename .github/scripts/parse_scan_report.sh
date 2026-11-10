@@ -26,13 +26,3 @@ else
     echo "vuln_ids=" >> "$GITHUB_OUTPUT"
   fi
 fi
-
-if [[ -n "${GEMINI_API_KEY:-}" || -n "${OPENROUTER_API_KEY:-}" ]]; then
-  if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
-    echo "has_api_key=true" >> "$GITHUB_OUTPUT"
-  fi
-else
-  if [[ -n "${GITHUB_OUTPUT:-}" ]]; then
-    echo "has_api_key=false" >> "$GITHUB_OUTPUT"
-  fi
-fi

@@ -18,14 +18,11 @@ Welcome to `gradle-plugin-opinion`. This document outlines the project conventio
 
 ## 2. Dependency & Vulnerability Remediation
 
-When remediating vulnerabilities detected by OSV Scanner or security issues:
+When remediating vulnerabilities detected by OSV Scanner or security issues, apply a two-tier strategy:
 
-1. **Target File:**
-   - Only edit [`build.gradle`](file:///workspace/gradle-plugin-opinion/build.gradle). Do NOT edit `osv-scanner.toml`.
-2. **Direct Dependencies:**
-   - If the affected package is directly declared in `dependencies { ... }` or `buildscript { dependencies { ... } }`, upgrade its version number in place.
-3. **Transitive Dependencies:**
-   - Enforce fixed versions using Gradle dependency constraints within the project-level `dependencies { constraints { ... } }` block at the bottom of [`build.gradle`](file:///workspace/gradle-plugin-opinion/build.gradle):
+1. **Primary Strategy (Target: `build.gradle`):**
+   - **Direct Dependencies:** If the affected package is directly declared in `dependencies { ... }` or `buildscript { dependencies { ... } }`, upgrade its version number in place.
+   - **Transitive Dependencies:** Enforce fixed versions using Gradle dependency constraints within the project-level `dependencies { constraints { ... } }` block at the bottom of [`build.gradle`](file:///workspace/gradle-plugin-opinion/build.gradle):
 
      ```groovy
      dependencies {
@@ -40,7 +37,10 @@ When remediating vulnerabilities detected by OSV Scanner or security issues:
      }
      ```
    - **Never** add `implementation` or `constraints` inside `buildscript { ... }` (which only supports `classpath`).
-4. **Commit Formatting:**
+2. **Fallback Strategy (Target: `osv-scanner.toml`):**
+   - ONLY if no upstream fixed version exists in the advisory, or if bumping introduces breaking changes that cannot be resolved:
+   - Add an entry to `osv-scanner.toml` under `[[IgnoredVulns]]` with `id`, `effectiveUntil` (YYYY-MM-DD), and `reason`.
+3. **Commit Formatting:**
    - Follow Conventional Commits: `fix(deps): remediate <VULNERABILITY_ID>`
 
 ---
@@ -56,8 +56,8 @@ Before submitting a Pull Request, verify the changes locally:
 # 2. Apply code style formatting
 ./gradlew spotlessApply
 
-# 3. Run unit and integration tests
-./gradlew test
+# 3. Run full build and verification tasks
+./gradlew build
 ```
 
 All verification commands require Java 17.

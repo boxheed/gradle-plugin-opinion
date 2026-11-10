@@ -71,29 +71,6 @@ EOF
   [ "$status" -eq 0 ]
 }
 
-@test "detects API key presence correctly" {
-  export GEMINI_API_KEY="test-api-key"
-  run "$SCRIPT_PATH" "${TEST_TEMP_DIR}/nonexistent.json"
-  [ "$status" -eq 0 ]
-  run grep "has_api_key=true" "$GITHUB_OUTPUT"
-  [ "$status" -eq 0 ]
-
-  unset GEMINI_API_KEY
-  export OPENROUTER_API_KEY="test-openrouter-key"
-  : > "$GITHUB_OUTPUT"
-  run "$SCRIPT_PATH" "${TEST_TEMP_DIR}/nonexistent.json"
-  [ "$status" -eq 0 ]
-  run grep "has_api_key=true" "$GITHUB_OUTPUT"
-  [ "$status" -eq 0 ]
-
-  unset OPENROUTER_API_KEY
-  : > "$GITHUB_OUTPUT"
-  run "$SCRIPT_PATH" "${TEST_TEMP_DIR}/nonexistent.json"
-  [ "$status" -eq 0 ]
-  run grep "has_api_key=false" "$GITHUB_OUTPUT"
-  [ "$status" -eq 0 ]
-}
-
 @test "exports target_branch from environment" {
   export TARGET_BRANCH="feature/my-branch"
   run "$SCRIPT_PATH" "${TEST_TEMP_DIR}/nonexistent.json"

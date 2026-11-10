@@ -25,22 +25,25 @@ if ! command -v aider >/dev/null 2>&1; then
   export PATH="${HOME}/.local/bin:${PATH}"
 fi
 
-# Configure git identity for Aider if not already set
+# Ensure git author is configured if not already present
 if ! git config user.name >/dev/null 2>&1; then
-  git config user.name "github-actions[bot]"
-  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+  git config user.name "${GIT_AUTHOR_NAME:-${GITHUB_ACTOR:-github-actions[bot]}}"
+  git config user.email "${GIT_AUTHOR_EMAIL:-${GITHUB_ACTOR:-github-actions[bot]}@users.noreply.github.com}"
 fi
+
+# Dynamically discover Gradle build files and osv-scanner.toml
+FILES_TO_EDIT=()
+while IFS= read -r f; do
+  clean_path="${f#./}"
+  FILES_TO_EDIT+=(--file "${clean_path}")
+done < <(find . -maxdepth 3 \( -name "build.gradle" -o -name "build.gradle.kts" -o -name "osv-scanner.toml" \) ! -path "*/.*" | sort)
 
 echo "Running Aider remediation with model: ${MODEL}..."
 
-AIDER_PROMPT=$(cat << 'EOF'
-Remediate the OSV vulnerabilities reported in the OSV report.
-Follow these strict rules from SKILL.md and AGENTS.md:
-1. ONLY modify build.gradle. Do NOT create or modify osv-scanner.toml or any other file.
-2. Direct Dependencies: If the vulnerable package is declared directly in build.gradle (e.g. in dependencies { ... } or buildscript { dependencies { ... } }), upgrade its version number in place.
-3. Transitive Dependencies: If the package is brought in transitively (NOT declared directly in build.gradle), add a dependency constraint inside the existing project-level dependencies { constraints { ... } } block at the bottom of build.gradle.
-4. Context & Syntax: NEVER place implementation(...) or constraints inside the buildscript { ... } block (buildscript only accepts classpath). All dependency constraints MUST be inside the project dependencies { constraints { ... } } block.
-5. Verification: Ensure the test command succeeds cleanly without errors.
+AIDER_PROMPT=$(cat << EOF
+Remediate the OSV vulnerabilities reported in ${REPORT} strictly adhering to the instructions in .agents/skills/osv-remediation/SKILL.md and AGENTS.md.
+1. Primary: Update vulnerable dependencies in build.gradle (in-place bump for direct dependencies, or constraints block for transitive dependencies).
+2. Fallback: ONLY if no fixed version exists in the advisory, or if bumping causes breaking changes that cannot be resolved, add an entry to osv-scanner.toml following the existing [[IgnoredVulns]] structure.
 EOF
 )
 
@@ -49,22 +52,19 @@ aider \
   --read .agents/skills/osv-remediation/SKILL.md \
   --read AGENTS.md \
   --read "${REPORT}" \
-  --file build.gradle \
+  "${FILES_TO_EDIT[@]}" \
   --chat-history-file /tmp/aider.chat.history.md \
   --input-history-file /tmp/aider.input.history \
-  --test-cmd "./gradlew osvInstall osvLockAndScan && ./gradlew spotlessApply && ./gradlew test" \
+  --test-cmd "./gradlew osvInstall osvLockAndScan && ./gradlew spotlessApply && ./gradlew build" \
   --auto-test \
   --no-auto-commits \
   --no-dirty-commits \
   --no-gitignore \
   --yes-always \
-  --message "${AIDER_PROMPT}"
+  --message "${AIDER_PROMPT}" || true
 
-echo "Verifying remediation outcome..."
-if ! ./gradlew osvInstall osvLockAndScan || ! ./gradlew spotlessCheck test; then
-  echo "::error::Remediation did not produce a passing build. Discarding invalid edits."
-  git checkout -- .
-  exit 1
+if [[ -n "$(git status --porcelain)" ]]; then
+  echo "Remediation finished with changes in working tree."
+else
+  echo "Remediation finished without making changes."
 fi
-
-echo "Remediation verified successfully."

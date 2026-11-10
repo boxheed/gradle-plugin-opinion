@@ -11,6 +11,11 @@ on:
         type: boolean
         default: false
         required: false
+      force:
+        description: 'Force remediation even if an open PR already covers the vulnerabilities'
+        type: boolean
+        default: false
+        required: false
   pull_request:
     branches:
       - develop
@@ -36,6 +41,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Configure Git Identity
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+
       - name: Grant execute permissions for gradlew and scripts
         run: chmod +x ./gradlew .github/scripts/*.sh
 
@@ -50,35 +60,55 @@ jobs:
           (steps.scan.outcome == 'failure' || inputs.dry_run) &&
           !startsWith(github.head_ref || github.ref_name, 'fix/remediate-') &&
           (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: .github/scripts/parse_scan_report.sh
+
+      - name: Check Existing Remediation PR
+        id: check-pr
+        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.parse-scan.outputs.has_vulnerabilities == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_BRANCH: ${{ steps.parse-scan.outputs.target_branch }}
+          VULN_IDS: ${{ steps.parse-scan.outputs.vuln_ids }}
+          FORCE: ${{ inputs.force || 'false' }}
+        run: .github/scripts/check_existing_pr.sh
+
+      - name: Check for Missing API Key Secret
+        if: >-
+          steps.scan.outcome == 'failure' && !inputs.dry_run &&
+          steps.parse-scan.outputs.has_vulnerabilities == 'true' &&
+          steps.check-pr.outputs.skip_remediation != 'true' &&
+          secrets.GEMINI_API_KEY == '' && secrets.OPENROUTER_API_KEY == ''
+        run: |
+          echo "::warning::Neither GEMINI_API_KEY nor OPENROUTER_API_KEY secret is configured. Add one of them to repository secrets to enable autonomous remediation."
 
       - name: Run Remediation via Aider
         id: remediate
-        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.parse-scan.outputs.has_vulnerabilities == 'true' && steps.parse-scan.outputs.has_api_key == 'true'
+        if: >-
+          steps.scan.outcome == 'failure' && !inputs.dry_run &&
+          steps.parse-scan.outputs.has_vulnerabilities == 'true' &&
+          steps.check-pr.outputs.skip_remediation != 'true' &&
+          (secrets.GEMINI_API_KEY != '' || secrets.OPENROUTER_API_KEY != '')
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: .github/scripts/run_remediation.sh
+        continue-on-error: true
 
-      - name: Verify Fix and Push / Create PR
+      - name: Publish Remediation PR
         id: commit-fix
-        if: steps.remediate.outcome == 'success'
+        if: >-
+          steps.scan.outcome == 'failure' && !inputs.dry_run &&
+          steps.check-pr.outputs.skip_remediation != 'true' &&
+          steps.remediate.outcome != 'skipped'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_BRANCH: ${{ steps.parse-scan.outputs.target_branch }}
           VULN_IDS: ${{ steps.parse-scan.outputs.vuln_ids || 'OSV vulnerabilities' }}
         run: .github/scripts/publish_fix.sh
-
-      - name: Check for Missing API Key Secret
-        if: steps.scan.outcome == 'failure' && !inputs.dry_run && steps.parse-scan.outputs.has_vulnerabilities == 'true' && steps.parse-scan.outputs.has_api_key != 'true'
-        run: |
-          echo "::warning::Neither GEMINI_API_KEY nor OPENROUTER_API_KEY secret is configured. Add one of them to repository secrets to enable autonomous remediation."
+        continue-on-error: true
 
       - name: Gate Check
-        if: steps.scan.outcome == 'failure' && steps.commit-fix.outputs.remediated != 'true'
+        if: steps.scan.outcome == 'failure' && steps.check-pr.outputs.skip_remediation != 'true' && steps.commit-fix.outputs.remediated != 'true'
         run: |
-          echo "::error::Vulnerabilities detected by OSV Scanner and automated remediation did not succeed."
+          echo "::error::Vulnerabilities detected by OSV Scanner and automated remediation could not be published."
           exit 1
