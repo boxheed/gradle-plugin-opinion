@@ -5,7 +5,7 @@ if [[ -z "${AIDER_MODEL:-}" ]]; then
   if [[ -n "${OPENROUTER_API_KEY:-}" && -z "${GEMINI_API_KEY:-}" ]]; then
     MODEL="openrouter/google/gemini-2.5-flash-lite"
   else
-    MODEL="gemini/gemini-2.5-flash-lite"
+    MODEL="gemini/gemini-3.5-flash-lite"
   fi
 else
   MODEL="${AIDER_MODEL}"
