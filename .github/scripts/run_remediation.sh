@@ -50,7 +50,9 @@ aider \
   --read AGENTS.md \
   --read "${REPORT}" \
   --file build.gradle \
-  --test-cmd "./gradlew osvInstall osvLockAndScan && ./gradlew spotlessCheck test" \
+  --chat-history-file /tmp/aider.chat.history.md \
+  --input-history-file /tmp/aider.input.history \
+  --test-cmd "./gradlew osvInstall osvLockAndScan && ./gradlew spotlessApply && ./gradlew test" \
   --auto-test \
   --no-auto-commits \
   --no-dirty-commits \
@@ -59,7 +61,7 @@ aider \
   --message "${AIDER_PROMPT}"
 
 echo "Verifying remediation outcome..."
-if ! ./gradlew osvInstall osvLockAndScan && ./gradlew spotlessCheck test; then
+if ! ./gradlew osvInstall osvLockAndScan || ! ./gradlew spotlessCheck test; then
   echo "::error::Remediation did not produce a passing build. Discarding invalid edits."
   git checkout -- .
   exit 1
