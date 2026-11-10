@@ -27,6 +27,9 @@ permissions:
 jobs:
   osv-scan:
     runs-on: ubuntu-latest
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
 
     steps:
       - name: Checkout repository
@@ -77,7 +80,7 @@ jobs:
           steps.scan.outcome == 'failure' && !inputs.dry_run &&
           steps.parse-scan.outputs.has_vulnerabilities == 'true' &&
           steps.check-pr.outputs.skip_remediation != 'true' &&
-          secrets.GEMINI_API_KEY == '' && secrets.OPENROUTER_API_KEY == ''
+          env.GEMINI_API_KEY == '' && env.OPENROUTER_API_KEY == ''
         run: |
           echo "::warning::Neither GEMINI_API_KEY nor OPENROUTER_API_KEY secret is configured. Add one of them to repository secrets to enable autonomous remediation."
 
@@ -87,10 +90,7 @@ jobs:
           steps.scan.outcome == 'failure' && !inputs.dry_run &&
           steps.parse-scan.outputs.has_vulnerabilities == 'true' &&
           steps.check-pr.outputs.skip_remediation != 'true' &&
-          (secrets.GEMINI_API_KEY != '' || secrets.OPENROUTER_API_KEY != '')
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          (env.GEMINI_API_KEY != '' || env.OPENROUTER_API_KEY != '')
         run: .github/scripts/run_remediation.sh
         continue-on-error: true
 
