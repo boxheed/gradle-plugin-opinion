@@ -3,11 +3,7 @@ apply plugin: 'com.fizzpod.gitignore'
 apply plugin: 'com.fizzpod.layout'
 
 layout {
-    file('README.md') {
-        "# " + project.name
-    }
-    file('LICENSE')
-    file('.circleci/config.yml')
+    name 'gradle-plugin'
 }
 
 gitignore {
@@ -27,4 +23,5 @@ gitignore {
     ignore '.osv-scanner'
     ignore '.git-semver'
     ignore '*.lockfile'
+    ignore '.aider*'
 }
