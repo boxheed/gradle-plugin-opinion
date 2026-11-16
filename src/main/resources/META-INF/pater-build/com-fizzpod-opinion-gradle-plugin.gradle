@@ -50,6 +50,10 @@ lefthook {
         "pre-commit": [
             "follow": true,
             "commands": [
+                "layout": [
+                    "glob": "*",
+                    "run": "./gradlew applyLayout"
+                ],
                 "spotless": [
                     "glob": "*",
                     "run": "./gradlew spotlessCheck"
