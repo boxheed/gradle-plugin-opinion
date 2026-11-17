@@ -52,7 +52,7 @@ lefthook {
             "commands": [
                 "layout": [
                     "glob": "*",
-                    "run": "./gradlew applyLayout"
+                    "run": "./gradlew checkLayout"
                 ],
                 "spotless": [
                     "glob": "*",
