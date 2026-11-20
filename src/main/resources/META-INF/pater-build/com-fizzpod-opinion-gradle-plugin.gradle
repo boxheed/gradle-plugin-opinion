@@ -114,7 +114,7 @@ spotless {
 
         cleanthat()
 
-        googleJavaFormat()
+        googleJavaFormat().aosp()
 
         formatAnnotations()
 
